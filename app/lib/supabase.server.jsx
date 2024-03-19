@@ -1,7 +1,5 @@
-import { redirect } from "@remix-run/cloudflare"
 import { createServerClient, parse, serialize } from "@supabase/ssr"
 import { createClient } from "@supabase/supabase-js"
-import { sanitizeString } from "../lib/input_security/sanitizer.server"
 
 export const getSupabaseEnv = (context) => ({
    SUPABASE_URL: context.cloudflare.env.SUPABASE_URL,
