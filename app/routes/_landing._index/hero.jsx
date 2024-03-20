@@ -1,4 +1,3 @@
-"use client"
 import {
    IconBrightnessDown,
    IconBrightnessUp,
@@ -20,18 +19,19 @@ import {
    IconVolume3,
    IconWorld,
 } from "@tabler/icons-react"
-import { MotionValue, motion, useScroll, useTransform } from "framer-motion"
+import { MotionValue, motion, stagger, useAnimate, useInView, useScroll, useTransform } from "framer-motion"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { cn } from "../../utils/cn"
 
 export default function Hero({ textHeading, textSubHeading }) {
    return (
-      <div className="w-full overflow-hidden bg-white dark:bg-[#0B0B0F]">
+      <div className="w-full overflow-hidden bg-white dark:bg-black">
          <MacbookScroll
             title={
-               <span>
-                  This Macbook is built with Tailwindcss. <br /> No kidding.
-               </span>
+               <div className="flex flex-col gap-4">
+                  <h1 className="">{textHeading}</h1>
+                  <p className="">{textSubHeading}</p>
+               </div>
             }
             badge={
                <div>
@@ -79,43 +79,66 @@ const MacbookScroll = ({ src, showGradient, title, badge }) => {
    const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
    // Set a boundary for translation to prevent scrolling beyond a certain point
    const limitedTranslate = useTransform(translate, (value) => Math.min(value, 600))
+
+   const words = [
+      {
+         text: "Building",
+      },
+      {
+         text: "bridges",
+      },
+      {
+         text: "between",
+      },
+      {
+         text: "and",
+      },
+      {
+         text: "technology.",
+         className: "text-blue-500 dark:text-blue-500",
+      },
+   ]
    return (
-      <div ref={ref} className="flex  min-h-[200vh] flex-shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50  md:scale-100 md:py-48">
-         <motion.h2
-            style={{
-               translateY: textTransform,
-               opacity: textOpacity,
-            }}
-            className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white">
-            {title || (
-               <span>
-                  This Macbook is built with Tailwindcss. <br /> No kidding.
-               </span>
-            )}
-         </motion.h2>
-         {/* Lid */}
-         <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={limitedTranslate} />
-         {/* Base area */}
-         <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
-            {/* above keyboard bar */}
-            <div className="relative h-10 w-full">
-               <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
+      <div className="">
+         <div ref={ref} className="flex min-h-[120vh] w-full scale-[0.65] transform flex-col items-center justify-start py-0 [perspective:800px] sm:min-h-[190vh]   sm:scale-100 sm:py-48">
+            <p className="text-xl text-neutral-600 dark:text-neutral-200 sm:text-2xl  ">Hello, my name is João Dantas</p>
+            <TypewriterEffectSmooth className={"mb-20"} words={words} />
+            {/* <motion.h2
+               style={{
+                  translateY: textTransform,
+                  opacity: textOpacity,
+               }}
+               className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white">
+               {title || (
+                  <span>
+                     This Macbook is built with Tailwindcss. <br /> No kidding.
+                  </span>
+               )}
+            </motion.h2> */}
+            {/* Lid */}
+            <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={limitedTranslate} />
+            {/* Base area */}
+            <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
+               {/* above keyboard bar */}
+               <div className="relative h-10 w-full">
+                  <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
+               </div>
+               <div className="relative flex">
+                  <div className="mx-auto h-full w-[10%]  overflow-hidden">
+                     <SpeakerGrid />
+                  </div>
+                  <div className="mx-auto h-full w-[80%]">
+                     <Keypad />
+                  </div>
+                  <div className="mx-auto h-full w-[10%]  overflow-hidden">
+                     <SpeakerGrid />
+                  </div>
+               </div>
+               <Trackpad />
+               <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
+               {showGradient && <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black"></div>}
+               {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
             </div>
-            <div className="relative flex">
-               <div className="mx-auto h-full w-[10%]  overflow-hidden">
-                  <SpeakerGrid />
-               </div>
-               <div className="mx-auto h-full w-[80%]">
-                  <Keypad />
-               </div>
-               <div className="mx-auto h-full w-[10%]  overflow-hidden">
-                  <SpeakerGrid />
-               </div>
-            </div>
-            <Trackpad />
-            <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
-            {showGradient && <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black"></div>}
-            {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
          </div>
       </div>
    )
@@ -549,5 +572,139 @@ const Logo = () => {
          <circle cx="65" cy="40" r="8" fill="black" />
          <path d="M30,65 Q50,80 70,65" fill="none" stroke="black" strokeWidth="5" />
       </svg>
+   )
+}
+
+const TypewriterEffect = ({ words, className, cursorClassName }) => {
+   // split text inside of words into array of characters
+   const wordsArray = words.map((word) => {
+      return {
+         ...word,
+         text: word.text.split(""),
+      }
+   })
+
+   const [scope, animate] = useAnimate()
+   const isInView = useInView(scope)
+   useEffect(() => {
+      if (isInView) {
+         animate(
+            "span",
+            {
+               display: "inline-block",
+               opacity: 1,
+            },
+            {
+               duration: 0.3,
+               delay: stagger(0.1),
+               ease: "easeInOut",
+            },
+         )
+      }
+   }, [isInView])
+
+   const renderWords = () => {
+      return (
+         <motion.div ref={scope} className="inline">
+            {wordsArray.map((word, idx) => {
+               return (
+                  <div key={`word-${idx}`} className="inline-block">
+                     {word.text.map((char, index) => (
+                        <motion.span initial={{}} key={`char-${index}`} className={cn(`hidden text-black opacity-0 dark:text-white`, word.className)}>
+                           {char}
+                        </motion.span>
+                     ))}
+                     &nbsp;
+                  </div>
+               )
+            })}
+         </motion.div>
+      )
+   }
+   return (
+      <div className={cn("text-center text-base font-bold sm:text-xl md:text-3xl lg:text-5xl", className)}>
+         {renderWords()}
+         <motion.span
+            initial={{
+               opacity: 0,
+            }}
+            animate={{
+               opacity: 1,
+            }}
+            transition={{
+               duration: 0.8,
+               repeat: Infinity,
+               repeatType: "reverse",
+            }}
+            className={cn("inline-block h-4 w-[4px] rounded-sm bg-blue-500 md:h-6 lg:h-10", cursorClassName)}></motion.span>
+      </div>
+   )
+}
+
+const TypewriterEffectSmooth = ({ words, className, cursorClassName }) => {
+   // split text inside of words into array of characters
+   const wordsArray = words.map((word) => {
+      return {
+         ...word,
+         text: word.text.split(""),
+      }
+   })
+   const renderWords = () => {
+      return (
+         <div>
+            {wordsArray.map((word, idx) => {
+               return (
+                  <div key={`word-${idx}`} className="inline-block">
+                     {word.text.map((char, index) => (
+                        <span key={`char-${index}`} className={cn(`text-black dark:text-white `, word.className)}>
+                           {char}
+                        </span>
+                     ))}
+                     &nbsp;
+                  </div>
+               )
+            })}
+         </div>
+      )
+   }
+
+   return (
+      <div className={cn("my-6 flex space-x-1", className)}>
+         <motion.div
+            className="overflow-hidden pb-2"
+            initial={{
+               width: "0%",
+            }}
+            whileInView={{
+               width: "fit-content",
+            }}
+            transition={{
+               duration: 2,
+               ease: "linear",
+               delay: 1,
+            }}>
+            <div
+               className="lg:text:3xl  text-xl font-bold xl:text-5xl"
+               style={{
+                  whiteSpace: "nowrap",
+               }}>
+               {renderWords()}{" "}
+            </div>{" "}
+         </motion.div>
+         <motion.span
+            initial={{
+               opacity: 0,
+            }}
+            animate={{
+               opacity: 1,
+            }}
+            transition={{
+               duration: 0.8,
+
+               repeat: Infinity,
+               repeatType: "reverse",
+            }}
+            className={cn("block h-7 w-1  rounded-sm bg-blue-500 xl:h-12", cursorClassName)}></motion.span>
+      </div>
    )
 }

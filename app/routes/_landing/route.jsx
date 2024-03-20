@@ -10,7 +10,7 @@ export default function landingLayout() {
    return (
       <>
          <main className="size-full bg-white dark:bg-black ">
-            <div className="relative z-0 mx-auto ">
+            <div className=" z-0 mx-auto ">
                <Outlet context={outletContext} />
             </div>
          </main>
