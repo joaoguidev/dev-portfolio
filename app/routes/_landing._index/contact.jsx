@@ -26,7 +26,7 @@ export default function Contact() {
             </h2>
             {actionData?.success === true ? (
                <div className="flex size-full flex-col items-center justify-center gap-5 font-semibold text-white">
-                  <div className="mt-10 ">
+                  <div className="mt-10">
                      <IconMailbox className="size-20 dark:text-green-400" />
                   </div>
                   <p className="">Message sent!</p>
