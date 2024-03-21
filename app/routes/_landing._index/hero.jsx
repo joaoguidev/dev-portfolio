@@ -19,8 +19,8 @@ import {
    IconVolume3,
    IconWorld,
 } from "@tabler/icons-react"
-import { MotionValue, motion, stagger, useAnimate, useInView, useScroll, useTransform } from "framer-motion"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { motion, stagger, useAnimate, useInView, useScroll, useTransform } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "../../utils/cn"
 
 export default function Hero({ textHeading, textSubHeading }) {

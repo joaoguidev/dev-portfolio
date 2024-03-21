@@ -1,12 +1,10 @@
-import { json, useActionData, useLoaderData } from "@remix-run/react"
+import { json,  } from "@remix-run/react"
 import { csrf } from "../../lib/form_security/csrf.server"
-import { createSupabaseServerSideOnly, getSupabaseWithHeaders } from "../../lib/supabase.server"
-import Contact from "./Contact"
+import Contact from "./Contactt"
 import Hero from "./Hero"
 import Introduction from "./Introduction"
 import Work from "./Work"
 import { getSchemaContact } from "./schemas"
-
 import StarsCanvas from "../../components/canvas/Stars"
 import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
 import { validateSchema } from "../../lib/input_security/validation.server"
@@ -64,7 +62,6 @@ export const action = async ({ request, context }) => {
       throw new Response("Invalid CSRF", { status: 403 })
    }
    const { headers } = await getSupabaseWithHeaders({ request, context })
-   const supabaseServerSideOnly = await createSupabaseServerSideOnly({ context })
    //Parse the incoming request body
    const formData = await request.formData()
    const dirtyData = await Object.fromEntries(formData)
@@ -80,7 +77,7 @@ export const action = async ({ request, context }) => {
          if (cleanContactData.success) {
             if (await validateTurnstileServerSide({ context, cleanContactData })) {
                const emailStatus = await sendTransactionalEmail(context, await sanitizeString( cleanContactData.cleanData.name), await sanitizeString(cleanContactData.cleanData.email), await sanitizeString(cleanContactData.cleanData.message))
-               
+
                if(emailStatus?.messageId){
                   return json({ success: true }, { headers })
                } else {

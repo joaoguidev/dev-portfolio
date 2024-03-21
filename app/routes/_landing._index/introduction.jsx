@@ -3,10 +3,7 @@ import { CardGradient } from "../../components/CardGradient"
 import SectionHeading from "../../components/SectionHeading"
 
 export default function Introduction({ textHeading, textSubHeading, textParagraph, textHeadingCard, textParagraphCard }) {
-   // const characterCanvaA = useMemo(
-   //    () =>{ return <CharacterCanvas />
-   //    },[]
-   //  );
+
    return (
       <>
          <div className="w-full ">

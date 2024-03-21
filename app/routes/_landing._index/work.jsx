@@ -1,4 +1,4 @@
-import { Link, useOutletContext } from "@remix-run/react"
+import { Link } from "@remix-run/react"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import SectionHeading from "../../components/SectionHeading"
@@ -292,7 +292,7 @@ const work = [
       live: { url: "https://joaodev.work", title: "Live Site" },
       description:
          "This portfolio showcases a visually stunning web application that seamlessly integrates backend functionalities with frontend experiences, offering dynamic animations and immersive 3D elements. With robust data management and secure validation, it ensures both performance and user safety. Additionally, Cloudflare Pages ensures reliable hosting for a seamless user experience.",
-      tecnologies: [tecnologies.remix, tecnologies.supabase, tecnologies.postgreSQL, tecnologies.tailwind, tecnologies.cloudflarePages, tecnologies.zod, tecnologies.sanitizeHtml, tecnologies.framerMotion, tecnologies.reactFiber, tecnologies.reactDrei, tecnologies.threeJs, tecnologies.aceternity],
+      tecnologies: [tecnologies.remix, tecnologies.supabase, tecnologies.postgreSQL, tecnologies.tailwind, tecnologies.cloudflarePages, tecnologies.zod, tecnologies.sanitizeHtml, tecnologies.framerMotion, tecnologies.reactFiber, tecnologies.reactDrei, tecnologies.threeJs, tecnologies.aceternity, tecnologies.brevoApi],
    },
    {
       title: "Maple Road Consulting",
