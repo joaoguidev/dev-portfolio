@@ -42,25 +42,25 @@ export default async function handleRequest(
    //    "Content-Security-Policy",
    //    `script-src 'nonce-${cspNonce}' 'strict-dynamic'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; connect-src https://rfbsybuqfhnjnahxotul.supabase.co https://podbaydor.com; form-action 'self'; style-src 'self' 'https://' 'nonce-${cspNonce}'; upgrade-insecure-requests; default-src 'none'; font-src 'self'; style-src-attr 'self'; img-src 'self';`
    // )
-   responseHeaders.set("Content-Type", "text/html; charset=UTF-8")
-   responseHeaders.set("Pragma", "no-cache")
-   responseHeaders.set("X-Frame-Options", "DENY")
-   responseHeaders.set(
-      "Strict-Transport-Security",
-      "max-age=31536000; includeSubDomains"
-   )
-   responseHeaders.set("X-Content-Type-Options", "nosniff")
-   responseHeaders.set("X-XSS-Protection", "1; mode=block")
-   responseHeaders.set("Referrer-Policy", "no-referrer")
-   responseHeaders.set(
-      "Feature-Policy",
-      "geolocation 'none'; microphone 'none'; camera 'none'"
-   )
-   responseHeaders.set("Cross-Origin-Embedder-Policy", "same-origin")
-   responseHeaders.set("Cross-Origin-Resource-Policy", "same-origin")
-   responseHeaders.set("Cross-Origin-Opener-Policy", "same-origin")
-   responseHeaders.set("X-Download-Options", "noopen")
-   responseHeaders.set("X-Permitted-Cross-Domain-Policies", "none")
+   // responseHeaders.set("Content-Type", "text/html; charset=UTF-8")
+   // responseHeaders.set("Pragma", "no-cache")
+   // responseHeaders.set("X-Frame-Options", "DENY")
+   // responseHeaders.set(
+   //    "Strict-Transport-Security",
+   //    "max-age=31536000; includeSubDomains"
+   // )
+   // responseHeaders.set("X-Content-Type-Options", "nosniff")
+   // responseHeaders.set("X-XSS-Protection", "1; mode=block")
+   // responseHeaders.set("Referrer-Policy", "no-referrer")
+   // responseHeaders.set(
+   //    "Feature-Policy",
+   //    "geolocation 'none'; microphone 'none'; camera 'none'"
+   // )
+   // responseHeaders.set("Cross-Origin-Embedder-Policy", "same-origin")
+   // responseHeaders.set("Cross-Origin-Resource-Policy", "same-origin")
+   // responseHeaders.set("Cross-Origin-Opener-Policy", "same-origin")
+   // responseHeaders.set("X-Download-Options", "noopen")
+   // responseHeaders.set("X-Permitted-Cross-Domain-Policies", "none")
    // responseHeaders.set("Access-Control-Allow-Origin", "*")
 
    return new Response(body, {

@@ -25,7 +25,7 @@ import { cn } from "../../utils/cn"
 
 export default function Hero({ textHeading, textSubHeading }) {
    return (
-      <div className="w-full overflow-hidden bg-white dark:bg-black">
+      <div className="w-full overflow-hidden ">
          <MacbookScroll
             title={
                <div className="flex flex-col gap-4">
@@ -193,7 +193,7 @@ const Trackpad = () => {
 
 const Keypad = () => {
    return (
-      <div className="mx-1 h-full rounded-md bg-[#050505] p-1">
+      <div className="mx-1 h-full rounded-md p-1">
          {/* First Row */}
          <Row>
             <KBtn className="w-10 items-end justify-start pb-[2px] pl-[4px]" childrenClassName="items-start">

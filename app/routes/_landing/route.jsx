@@ -9,10 +9,8 @@ export default function landingLayout() {
    const outletContext = useOutletContext()
    return (
       <>
-         <main className="size-full bg-white dark:bg-black ">
-            <div className=" z-0 mx-auto ">
+         <main className="size-full mx-auto">
                <Outlet context={outletContext} />
-            </div>
          </main>
       </>
    )

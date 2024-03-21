@@ -17,7 +17,7 @@ export function Layout({ children }) {
             <Meta />
             <Links />
          </head>
-         <body className="overflow-x-hidden m-0 size-full p-0 bg-background-light dark:bg-background-dark">
+         <body className="overflow-x-hidden m-0 size-full p-0 bg-white dark:bg-black">
             {children}
             <ScrollRestoration nonce={nonce} />
             <Scripts nonce={nonce} />
