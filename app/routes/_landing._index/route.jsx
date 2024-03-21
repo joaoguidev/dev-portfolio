@@ -10,6 +10,7 @@ import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.s
 import { validateSchema } from "../../lib/input_security/validation.server"
 import { sendTransactionalEmail } from "../../lib/email.server"
 import { sanitizeString } from "../../lib/input_security/sanitizer.server"
+import {getSupabaseWithHeaders} from '../../lib/supabase.server'
 
 export const meta = () => {
    return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }]
@@ -47,7 +48,7 @@ export default function Landing() {
 
 //SECTION - LOADER
 export const loader = async ({ request, context }) => {
-   const { headers } = await getSupabaseWithHeaders({ request, context })
+   const { headers } = await getSupabaseWithHeaders({ request, context }) 
 
    return json({}, { headers })
 }
