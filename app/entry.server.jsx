@@ -7,7 +7,7 @@
 import { RemixServer } from "@remix-run/react"
 import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
-// import { randomBytes } from "crypto"
+import { randomBytes } from "crypto"
 import { NonceContext } from "./lib/nonce-context"
 
 export default async function handleRequest(
@@ -20,9 +20,9 @@ export default async function handleRequest(
    // eslint-disable-next-line @typescript-eslint/no-unused-vars
    // loadContext
 ) {
-   // const cspNonce = randomBytes(50).toString("base64")
+   const cspNonce = randomBytes(50).toString("base64")
    const body = await renderToReadableStream(
-      <NonceContext.Provider value={'cspNonce'}>
+      <NonceContext.Provider value={cspNonce}>
          <RemixServer context={remixContext} url={request.url} />
       </NonceContext.Provider>,
       {
