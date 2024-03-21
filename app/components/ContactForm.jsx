@@ -124,7 +124,7 @@ export default function ContactForm() {
                   </button>
                   {formErrors?.turnstile && (
                      <span id="turnstileError" className="mt-3 flex flex-row items-center gap-3 rounded-lg bg-red-50 px-3 text-sm text-red-800">
-                        <IconAlertTriangle className="size-4" /> {formErrors?.turnstile}
+                        <IconAlertTriangle className="size-4 " /> {formErrors?.turnstile}
                      </span>
                   )}
                   {formErrors?.emailSender && (
