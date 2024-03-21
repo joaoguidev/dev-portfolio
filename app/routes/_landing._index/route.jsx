@@ -22,7 +22,7 @@ export default function Landing() {
             <div className="bg- absolute left-0 top-0 h-24  w-full bg-gradient-to-b from-black via-black to-transparent"></div>
             <div className="bg- absolute bottom-0 left-0 h-24  w-full bg-gradient-to-t from-black via-black to-transparent"></div>
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-y-32 px-6 py-10 dark:bg-inherit sm:px-16 sm:py-16">
-               {/* <Introduction
+               <Introduction
                   textHeading={"Overview."}
                   textSubHeading={"Introduction"}
                   textParagraph={
@@ -32,8 +32,8 @@ export default function Landing() {
                   textParagraphCard={
                      "Transitioning from a career as a financial analyst, I embarked on a new chapter in computer studies, leaving behind the bustling finance world for the innovative realm of technology. Hailing from Brazil, I chose Langara as my gateway to this exciting field, where I eagerly absorbed new knowledge and honed my skills. Through dedication and perseverance, I transformed into a proficient computer studies professional, equipped to thrive in the ever-evolving landscape of technology."
                   }
-               /> */}
-               {/* <Work /> */}
+               />
+               <Work />
             </div>
          </div>
          <div className="size-full flex">
