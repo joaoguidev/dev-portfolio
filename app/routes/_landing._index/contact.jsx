@@ -19,7 +19,7 @@ export default function Contact() {
    }, [actionData])
    const navigation = useNavigation()
    return (
-      <div className="mx-auto w-full ">
+      <div className="mx-auto w-full">
          <div className=" mx-auto mt-20  w-full max-w-md  rounded-2xl bg-white p-4 shadow-input dark:bg-zinc-900 md:p-8">
             <h2 id="contactForm" className="text-4xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-5xl">
                Get in touch
