@@ -1,8 +1,6 @@
 import { OrbitControls, Preload, useAnimations, useFBX, useTexture } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useFrame } from "@react-three/fiber"
 import { Suspense, useEffect, useRef, useState } from "react"
-
-import CanvasLoader from "../Loader"
 
 const CharacterModel = ({ isMobile }) => {
    const group = useRef()
@@ -25,6 +23,9 @@ const CharacterModel = ({ isMobile }) => {
       }
    }, [])
 
+   useFrame((state, delta) => {
+      ref.current.rotation.y -= delta / 2
+   })
    return (
       <group ref={group} dispose={null}>
          <mesh ref={ref} dispose={null}>

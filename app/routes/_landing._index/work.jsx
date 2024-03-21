@@ -1,11 +1,10 @@
 import { Link, useOutletContext } from "@remix-run/react"
 import { motion } from "framer-motion"
 import { useState } from "react"
-import SectionHeading from "../../components/section-heading"
+import SectionHeading from "../../components/SectionHeading"
 import { cn } from "../../utils/cn"
 
 export default function Work() {
-
    return (
       <>
          <SectionHeading textHeading={"Projects"} textSubHeading={"My Work"} textParagraph={"Explore my portfolio to see how I blend creativity with technical proficiency to deliver impactful digital solutions."} />
@@ -22,7 +21,7 @@ export default function Work() {
                            </span>
                         ))}
                      </div>
-                     <div className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] -px-5 mt-1 flex w-full flex-1">
+                     <div className="-px-5 mt-1 flex w-full flex-1 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]">
                         <img src={item.imageUrl} alt="a" loading="lazy" className="mx-auto w-full rounded-lg object-cover p-2 "></img>
                      </div>
                      {/* <div className="mt-4 flex w-full flex-1 rounded-lg bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" /> */}
@@ -322,8 +321,7 @@ const work = [
       imageUrl: "/images/project-ar-mobile.png",
       repository: { url: "https://github.com/joaoguidev/AR_Game---Project-Management", title: "Github" },
       live: { url: "https://ar-project-management.netlify.app/", title: "Live Site (Use Mobile)" },
-      description:
-         "Built using A-Frame and hosted on Netlify. Explore a dynamic world where reality blends with digital elements. Don't hesitate to look around in 360 degrees and engage with the mobile interface for an interactive journey.",
+      description: "Built using A-Frame and hosted on Netlify. Explore a dynamic world where reality blends with digital elements. Don't hesitate to look around in 360 degrees and engage with the mobile interface for an interactive journey.",
       tecnologies: [tecnologies.aFrame, tecnologies.css, tecnologies.js, tecnologies.netlify],
    },
 ]

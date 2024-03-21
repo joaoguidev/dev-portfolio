@@ -1,14 +1,17 @@
 import { json, useActionData, useLoaderData } from "@remix-run/react"
 import { csrf } from "../../lib/form_security/csrf.server"
 import { createSupabaseServerSideOnly, getSupabaseWithHeaders } from "../../lib/supabase.server"
-import Contact from "./contact"
-import Hero from "./hero"
-import Introduction from "./introduction"
+import Contact from "./Contact"
+import Hero from "./Hero"
+import Introduction from "./Introduction"
+import Work from "./Work"
 import { getSchemaContact } from "./schemas"
-import Work from "./work"
 
-import { validateSchema } from "../../lib/input_security/validation.server"
+import StarsCanvas from "../../components/canvas/Stars"
 import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
+import { validateSchema } from "../../lib/input_security/validation.server"
+import { sendTransactionalEmail } from "../../lib/email.server"
+import { sanitizeString } from "../../lib/input_security/sanitizer.server"
 
 export const meta = () => {
    return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }]
@@ -36,9 +39,9 @@ export default function Landing() {
                <Work />
             </div>
          </div>
-         <div className="size-full flex">
-
-         <Contact />
+         <div className="relative flex size-full">
+            <StarsCanvas />
+            <Contact />
          </div>
       </div>
    )
@@ -73,12 +76,18 @@ export const action = async ({ request, context }) => {
          const schemaContact = await getSchemaContact()
          //Schema Validation
          const cleanContactData = await validateSchema(schemaContact, dirtyData)
-         
+
          if (cleanContactData.success) {
-            if(await validateTurnstileServerSide({context,cleanContactData })){
-               return json({ success: true }, { headers })
+            if (await validateTurnstileServerSide({ context, cleanContactData })) {
+               const emailStatus = await sendTransactionalEmail(context, await sanitizeString( cleanContactData.cleanData.name), await sanitizeString(cleanContactData.cleanData.email), await sanitizeString(cleanContactData.cleanData.message))
+               
+               if(emailStatus?.messageId){
+                  return json({ success: true }, { headers })
+               } else {
+                  return json({ success: false, errors: { emailSender: "Apologies! Please try again in 10 minutes. My email sender is experiencing higher than usual load." } }, { headers })
+               }
             } else {
-               return json({ success: false, errors: { turnstile: 'Invalid form validation' } }, { headers })
+               return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
             }
          } else {
             return json({ success: false, errors: cleanContactData?.errors }, { headers })
