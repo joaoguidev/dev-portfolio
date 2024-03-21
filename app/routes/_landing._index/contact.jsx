@@ -12,7 +12,6 @@ export default function Contact() {
    const { env } = useOutletContext()
    const actionData = useActionData()
    const [formErrors, setFormErrors] = useState(actionData?.errors)
-   console.log("formErrors", formErrors)
    useEffect(() => {
       if (actionData?.errors) {
          setFormErrors(actionData?.errors)
@@ -20,11 +19,9 @@ export default function Contact() {
    }, [actionData])
    const navigation = useNavigation()
    return (
-      <div className="w-full">
-         {/* <SectionHeading textHeading={"Projects"} textSubHeading={"My Work"} textParagraph={"Explore my portfolio to see how I blend creativity with technical proficiency to deliver impactful digital solutions."} /> */}
-
-         <div className="mx-auto mt-20  w-full max-w-md  rounded-2xl bg-white p-4 shadow-input dark:bg-zinc-900 md:p-8">
-            <h2 id="contactForm" className="text-2xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-3xl">
+      <div className="mx-auto w-full">
+         <div className=" mx-auto mt-20  w-full max-w-md  rounded-2xl bg-white p-4 shadow-input dark:bg-zinc-900 md:p-8">
+            <h2 id="contactForm" className="text-4xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-5xl">
                Get in touch
             </h2>
             {actionData?.success === true ? (
@@ -126,6 +123,11 @@ export default function Contact() {
                      Submit
                      <BottomGradient />
                   </button>
+                  {formErrors?.turnstile && (
+                     <span id="turnstileError" className="mt-3 flex flex-row items-center gap-3 rounded-lg bg-red-50 px-3 text-sm text-red-800">
+                        <IconAlertTriangle className="size-4" /> {formErrors?.turnstile}
+                     </span>
+                  )}
                   <div className="mt-8 w-full">
                      <Turnstile className="mx-auto" siteKey={env.CLOUDFLARE_TURNSTILE_SITE_KEY} />
                   </div>

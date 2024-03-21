@@ -8,14 +8,13 @@ import { getSchemaContact } from "./schemas"
 import Work from "./work"
 
 import { validateSchema } from "../../lib/input_security/validation.server"
+import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
 
 export const meta = () => {
    return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }]
 }
 
 export default function Landing() {
-   const actionData = useActionData()
-   console.log("loaderData", actionData)
    return (
       <div className="dark:bg-inherit">
          <Hero className="dark:bg-inherit" textHeading={"Hello, my name is João Dantas"} textSubHeading={""} />
@@ -37,7 +36,10 @@ export default function Landing() {
                {/* <Work /> */}
             </div>
          </div>
+         <div className="size-full flex">
+
          <Contact />
+         </div>
       </div>
    )
 }
@@ -67,14 +69,17 @@ export const action = async ({ request, context }) => {
    switch (dirtyData.intent) {
       // ANCHOR - Sign Up Case
       case "contact": {
-         console.log("dirtyData.intent", dirtyData.intent)
          //Get Sign up Schema
          const schemaContact = await getSchemaContact()
          //Schema Validation
          const cleanContactData = await validateSchema(schemaContact, dirtyData)
-         console.log("cleanContactData", cleanContactData)
+         
          if (cleanContactData.success) {
-            return json({ success: true }, { headers })
+            if(await validateTurnstileServerSide({context,cleanContactData })){
+               return json({ success: true }, { headers })
+            } else {
+               return json({ success: false, errors: { turnstile: 'Invalid form validation' } }, { headers })
+            }
          } else {
             return json({ success: false, errors: cleanContactData?.errors }, { headers })
          }
