@@ -37,7 +37,6 @@ export default function App() {
 }
 //SECTION LOADER
 export const loader = async ({ request, context }) => {
-   console.log("context.cloudflare.env.DOMAIN_URL", context.cloudflare.env.DOMAIN_URL)
    console.log("---------- ROOT LOADER ----------")
    let [token, cookieHeader] = await csrf.commitToken()
    const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({

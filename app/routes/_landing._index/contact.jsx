@@ -1,49 +1,136 @@
 import { Turnstile } from "@marsidev/react-turnstile"
 import * as LabelPrimitive from "@radix-ui/react-label"
-import { Form, useOutletContext } from "@remix-run/react"
-import { IconBrandGithub, IconBrandGoogle, IconBrandOnlyfans } from "@tabler/icons-react"
+import { Form, useActionData, useNavigation, useOutletContext } from "@remix-run/react"
+import { IconAlertTriangle, IconBrandGithub, IconBrandGoogle, IconMailbox } from "@tabler/icons-react"
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
-import { forwardRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import SectionHeading from "../../components/section-heading"
 import { cn } from "../../utils/cn"
 
 export default function Contact() {
    const { env } = useOutletContext()
+   const actionData = useActionData()
+   const [formErrors, setFormErrors] = useState(actionData?.errors)
+   console.log("formErrors", formErrors)
+   useEffect(() => {
+      if (actionData?.errors) {
+         setFormErrors(actionData?.errors)
+      }
+   }, [actionData])
+   const navigation = useNavigation()
    return (
       <div className="w-full">
          {/* <SectionHeading textHeading={"Projects"} textSubHeading={"My Work"} textParagraph={"Explore my portfolio to see how I blend creativity with technical proficiency to deliver impactful digital solutions."} /> */}
 
-         <div className="shadow-input mx-auto  mt-20 w-full max-w-md rounded-none bg-white p-4 dark:bg-zinc-900 md:rounded-2xl md:p-8">
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-3xl">Get in touch</h2>
-            {/* <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300"></p> */}
-
-            <Form className="mt-8" method="POST">
-               <AuthenticityTokenInput />
-               <input className="hidden" name="intent" defaultValue="contact" />
-               <LabelInputContainer className="mb-8">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Your name" type="text" required/>
-               </LabelInputContainer>
-               <LabelInputContainer className="mb-8">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" placeholder="myemail@mailme.com" type="email" required/>
-               </LabelInputContainer>
-               <LabelInputContainer className="mb-8">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" placeholder="Please leave your message" type={"textarea"} rows="10" required/>
-               </LabelInputContainer>
-
-               <button
-                  className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-700 dark:from-zinc-800 dark:to-zinc-800 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-                  type="submit">
-                  Submit
-                  <BottomGradient />
-               </button>
-               <div className="mt-8 w-full">
-                  <Turnstile className="mx-auto" siteKey={env.CLOUDFLARE_TURNSTILE_SITE_KEY} />
+         <div className="mx-auto mt-20  w-full max-w-md  rounded-2xl bg-white p-4 shadow-input dark:bg-zinc-900 md:p-8">
+            <h2 id="contactForm" className="text-2xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-3xl">
+               Get in touch
+            </h2>
+            {actionData?.success === true ? (
+               <div className="flex size-full flex-col items-center justify-center gap-5 font-semibold text-white">
+                  <div className="mt-10">
+                     <IconMailbox className="size-20 dark:text-green-400" />
+                  </div>
+                  <p className="">Message sent!</p>
+                  <p className="">I will get back to you shortly.</p>
+                  <p className="">Thank you {" :)"}</p>
                </div>
-            </Form>
+            ) : (
+               <Form className="mt-8" method="POST">
+                  <AuthenticityTokenInput />
+                  <input className="hidden" name="intent" defaultValue="contact" />
+                  <LabelInputContainer className="mb-8">
+                     <Label htmlFor="name">Name</Label>
+                     <Input
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        type="text"
+                        required
+                        autoComplete="name"
+                        aria-describedby={formErrors?.name ? "nameError" : "contactForm"}
+                        onKeyDown={() => {
+                           if (formErrors?.name) {
+                              setFormErrors((prevState) => {
+                                 let newState = { ...prevState }
+                                 delete newState?.name
+                                 return newState
+                              })
+                           }
+                        }}
+                     />
+                     {formErrors?.name && (
+                        <span id="nameError" className="mt-3 flex flex-row items-center gap-3 rounded-lg bg-red-50 px-3 text-sm text-red-800">
+                           <IconAlertTriangle className="size-4" /> {formErrors?.name}
+                        </span>
+                     )}
+                  </LabelInputContainer>
+                  <LabelInputContainer className="mb-8">
+                     <Label htmlFor="email">Email Address</Label>
+                     <Input
+                        id="email"
+                        required
+                        name="email"
+                        placeholder="myemail@mailme.com"
+                        autoComplete="name"
+                        aria-describedby={formErrors?.email ? "emailError" : "contactForm"}
+                        type="email"
+                        onKeyDown={() => {
+                           if (formErrors?.email) {
+                              setFormErrors((prevState) => {
+                                 let newState = { ...prevState }
+                                 delete newState?.email
+                                 return newState
+                              })
+                           }
+                        }}
+                     />
+                     {formErrors?.email && (
+                        <span id="emailError" className="mt-3 flex flex-row items-center gap-3 rounded-lg bg-red-50 px-3 text-sm text-red-800">
+                           <IconAlertTriangle className="size-4" /> {formErrors?.email}
+                        </span>
+                     )}
+                  </LabelInputContainer>
+                  <LabelInputContainer className="mb-8">
+                     <Label htmlFor="message">Message</Label>
+                     <Textarea
+                        id="message"
+                        name="message"
+                        required
+                        placeholder="Please leave your message"
+                        type={"textarea"}
+                        autoComplete="name"
+                        aria-describedby={formErrors?.message ? "messageError" : "contactForm"}
+                        rows="10"
+                        onKeyDown={() => {
+                           if (formErrors?.message) {
+                              setFormErrors((prevState) => {
+                                 let newState = { ...prevState }
+                                 delete newState?.message
+                                 return newState
+                              })
+                           }
+                        }}
+                     />
+                     {formErrors?.message && (
+                        <span id="messageError" className="mt-3 flex flex-row items-center gap-3 rounded-lg bg-red-50 px-3 text-sm text-red-800">
+                           <IconAlertTriangle className="size-4" /> {formErrors?.message}
+                        </span>
+                     )}
+                  </LabelInputContainer>
+
+                  <button
+                     className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-700 dark:from-zinc-800 dark:to-zinc-800 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                     type="submit">
+                     Submit
+                     <BottomGradient />
+                  </button>
+                  <div className="mt-8 w-full">
+                     <Turnstile className="mx-auto" siteKey={env.CLOUDFLARE_TURNSTILE_SITE_KEY} />
+                  </div>
+               </Form>
+            )}
          </div>
       </div>
    )
@@ -83,7 +170,7 @@ const Input = forwardRef(({ className, type, ...props }, ref) => {
          <input
             type={type}
             className={cn(
-               `shadow-input dark:placeholder-text-neutral-600 duration-400 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black  transition file:border-0 
+               `dark:placeholder-text-neutral-600 duration-400 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black shadow-input  transition file:border-0 
            file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 
            focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 disabled:cursor-not-allowed
             disabled:opacity-50 group-hover/input:shadow-none
@@ -131,7 +218,7 @@ const Textarea = forwardRef(({ className, type, ...props }, ref) => {
          <textarea
             type={type}
             className={cn(
-               `shadow-input dark:placeholder-text-neutral-600 duration-400 flex w-full resize-none rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black  transition file:border-0 
+               `dark:placeholder-text-neutral-600 duration-400 flex w-full resize-none rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black shadow-input  transition file:border-0 
            file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 
            focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 disabled:cursor-not-allowed
             disabled:opacity-50 group-hover/input:shadow-none

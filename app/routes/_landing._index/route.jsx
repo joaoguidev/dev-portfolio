@@ -1,23 +1,25 @@
-import { json } from "@remix-run/react"
+import { json, useActionData, useLoaderData } from "@remix-run/react"
+import { csrf } from "../../lib/form_security/csrf.server"
 import { createSupabaseServerSideOnly, getSupabaseWithHeaders } from "../../lib/supabase.server"
+import Contact from "./contact"
 import Hero from "./hero"
 import Introduction from "./introduction"
-import Work from "./work"
-import Contact from "./contact"
-import { csrf } from "../../lib/form_security/csrf.server"
 import { getSchemaContact } from "./schemas"
+import Work from "./work"
 
-import {validateSchema} from '../../lib/input_security/validation.server'
+import { validateSchema } from "../../lib/input_security/validation.server"
 
 export const meta = () => {
    return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }]
 }
 
 export default function Landing() {
+   const actionData = useActionData()
+   console.log("loaderData", actionData)
    return (
       <div className="dark:bg-inherit">
          <Hero className="dark:bg-inherit" textHeading={"Hello, my name is João Dantas"} textSubHeading={""} />
-         <div className="bg-grid-small-white/25 relative w-full">
+         <div className="relative w-full bg-grid-small-white/25">
             <div className="bg- absolute left-0 top-0 h-24  w-full bg-gradient-to-b from-black via-black to-transparent"></div>
             <div className="bg- absolute bottom-0 left-0 h-24  w-full bg-gradient-to-t from-black via-black to-transparent"></div>
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-y-32 px-6 py-10 dark:bg-inherit sm:px-16 sm:py-16">
@@ -50,35 +52,34 @@ export const loader = async ({ request, context }) => {
 
 //SECTION - ACtION
 export const action = async ({ request, context }) => {
-      //Validade CSRF
-      try {
-         await csrf.validate(request)
-      } catch (error) {
-         throw new Response("Invalid CSRF", { status: 403 })
-      }
+   //Validade CSRF
+   try {
+      await csrf.validate(request)
+   } catch (error) {
+      throw new Response("Invalid CSRF", { status: 403 })
+   }
    const { headers } = await getSupabaseWithHeaders({ request, context })
    const supabaseServerSideOnly = await createSupabaseServerSideOnly({ context })
-      //Parse the incoming request body
-      const formData = await request.formData()
-      const dirtyData = await Object.fromEntries(formData)
-      console.log(dirtyData)
-      switch (dirtyData.intent) {
-         // ANCHOR - Sign Up Case
-         case "contact": {
-            //Get Sign up Schema
-            const schemaContact = await getSchemaContact()
-            //Schema Validation
-            const cleanContactData = await validateSchema(schemaContact, dirtyData) 
-            
-            if (cleanContactData.success) {
-               return json({ success: true, }, { headers })
-            } else {
-               return json({ success: false, errors: cleanContactData?.errors }, { headers })
-            }
+   //Parse the incoming request body
+   const formData = await request.formData()
+   const dirtyData = await Object.fromEntries(formData)
+   console.log(dirtyData)
+   switch (dirtyData.intent) {
+      // ANCHOR - Sign Up Case
+      case "contact": {
+         console.log("dirtyData.intent", dirtyData.intent)
+         //Get Sign up Schema
+         const schemaContact = await getSchemaContact()
+         //Schema Validation
+         const cleanContactData = await validateSchema(schemaContact, dirtyData)
+         console.log("cleanContactData", cleanContactData)
+         if (cleanContactData.success) {
+            return json({ success: true }, { headers })
+         } else {
+            return json({ success: false, errors: cleanContactData?.errors }, { headers })
          }
       }
-
-
+   }
    return json({}, { headers })
 }
 //!SECTION
