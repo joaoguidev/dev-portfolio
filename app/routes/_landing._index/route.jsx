@@ -1,7 +1,7 @@
 import { json,  } from "@remix-run/react"
 import { csrf } from "../../lib/form_security/csrf.server"
 import Contact from "./Contactt"
-import Hero from "./Hero"
+import Hero from "./Heroo"
 import Introduction from "./Introduction"
 import Work from "./Work"
 import { getSchemaContact } from "./schemas"
