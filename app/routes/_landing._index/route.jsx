@@ -6,10 +6,10 @@ import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.s
 import { sanitizeString } from "../../lib/input_security/sanitizer.server"
 import { validateSchema } from "../../lib/input_security/validation.server"
 import { getSupabaseWithHeaders } from "../../lib/supabase.server"
-import Contact from "./Contactt"
+import Contact from "./Contact"
 import Hero from "./Hero"
-import Introduction from "./Introductionn"
-import Work from "./Workk"
+import Introduction from "./Introduction"
+import Work from "./Work"
 import { getSchemaContact } from "./schemas"
 
 export const meta = () => {

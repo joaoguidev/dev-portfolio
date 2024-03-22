@@ -1,4 +1,4 @@
-import CharacterCanvas from "../../components/canvas/Characterr"
+import CharacterCanvas from "../../components/canvas/Character"
 import { CardGradient } from "../../components/CardGradient"
 import SectionHeading from "../../components/SectionHeading"
 import { introductionCard, introductionSectionHeading } from "../../lib/constants"
