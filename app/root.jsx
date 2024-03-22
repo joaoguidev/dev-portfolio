@@ -17,7 +17,7 @@ export function Layout({ children }) {
             <Meta />
             <Links />
          </head>
-         <body className="overflow-x-hidden m-0 size-full p-0 bg-white dark:bg-black">
+         <body className="m-0 size-full overflow-x-hidden bg-white p-0 dark:bg-black">
             {children}
             <ScrollRestoration nonce={nonce} />
             <Scripts nonce={nonce} />
@@ -38,16 +38,18 @@ export default function App() {
 //SECTION LOADER
 export const loader = async ({ request, context }) => {
    console.log("---------- ROOT LOADER ----------")
+   //Origin of CSRF token and the cookie that is going to carry it
    let [token, cookieHeader] = await csrf.commitToken()
    const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({
       request,
       context,
    })
+   //Sending selected envs to client-side
    const domainUrl = context.cloudflare.env.DOMAIN_URL
    const env = getSupabaseEnv(context)
+   env.PATH_MACBOOK_SCREEN_IMAGE = context.cloudflare.env.PATH_MACBOOK_SCREEN_IMAGE
    env.GOOGLE_MAPS_API_KEY = context.cloudflare.env.GOOGLE_MAPS_API_KEY
    env.CLOUDFLARE_TURNSTILE_SITE_KEY = context.cloudflare.env.CLOUDFLARE_TURNSTILE_SITE_KEY
-   // console.log("ROOT -> Chanding CSRF", token)
    return json({ serverSession, env, domainUrl, token }, ...headers, {
       headers: { "set-cookie": cookieHeader },
    })

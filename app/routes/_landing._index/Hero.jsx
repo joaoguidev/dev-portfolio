@@ -1,3 +1,4 @@
+import { useOutletContext } from "@remix-run/react"
 import {
    IconBrightnessDown,
    IconBrightnessUp,
@@ -22,23 +23,19 @@ import {
 import { motion, stagger, useAnimate, useInView, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import { cn } from "../../utils/cn"
+import { typewriterWords , heroH1 } from '../../lib/constants'
 
-export default function Hero({ textHeading, textSubHeading }) {
+export default function Hero() {
+   const outletContext = useOutletContext()
    return (
       <div className="w-full overflow-hidden ">
          <MacbookScroll
-            title={
-               <div className="flex flex-col gap-4">
-                  <h1 className="">{textHeading}</h1>
-                  <p className="">{textSubHeading}</p>
-               </div>
-            }
             badge={
                <div>
                   <Badge className="h-10 w-10 -rotate-12 transform" />
                </div>
             }
-            src={"/images/gitimage.png"}
+            src={`${outletContext.env.PATH_MACBOOK_SCREEN_IMAGE}`}
             showGradient={false}
          />
       </div>
@@ -56,7 +53,7 @@ const Badge = ({ className }) => {
    )
 }
 
-const MacbookScroll = ({ src, showGradient, title, badge }) => {
+const MacbookScroll = ({ src, showGradient, badge }) => {
    const ref = useRef(null)
    const { scrollYProgress } = useScroll({
       target: ref,
@@ -80,41 +77,13 @@ const MacbookScroll = ({ src, showGradient, title, badge }) => {
    // Set a boundary for translation to prevent scrolling beyond a certain point
    const limitedTranslate = useTransform(translate, (value) => Math.min(value, 600))
 
-   const words = [
-      {
-         text: "Building",
-      },
-      {
-         text: "bridges",
-      },
-      {
-         text: "between",
-      },
-      {
-         text: "and",
-      },
-      {
-         text: "technology.",
-         className: "text-blue-500 dark:text-blue-500",
-      },
-   ]
    return (
       <div className="">
          <div ref={ref} className="flex min-h-[120vh] w-full scale-[0.65] transform flex-col items-center justify-start py-0 [perspective:800px] sm:min-h-[190vh]   sm:scale-100 sm:py-48">
-            <p className="text-xl text-neutral-600 dark:text-neutral-200 sm:text-2xl  ">Hello, my name is João Dantas</p>
-            <TypewriterEffectSmooth className={"mb-20"} words={words} />
-            {/* <motion.h2
-               style={{
-                  translateY: textTransform,
-                  opacity: textOpacity,
-               }}
-               className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white">
-               {title || (
-                  <span>
-                     This Macbook is built with Tailwindcss. <br /> No kidding.
-                  </span>
-               )}
-            </motion.h2> */}
+            <h1 className="text-xl text-neutral-600 dark:text-neutral-200 sm:text-2xl  ">{heroH1}</h1>
+            <h2 className="">
+               <TypewriterEffectSmooth className={"mb-20"} words={typewriterWords} />
+            </h2>
             {/* Lid */}
             <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={limitedTranslate} />
             {/* Base area */}
@@ -175,7 +144,7 @@ const Lid = ({ scaleX, scaleY, rotate, translate, src }) => {
             }}
             className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2">
             <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-            <img src={src} alt="Joao Dantas Github" className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top" />
+            <img src={src} alt="Joao Dantas Github" className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top" crossOrigin="true" />
          </motion.div>
       </div>
    )
@@ -525,6 +494,7 @@ const Keypad = () => {
       </div>
    )
 }
+
 const KBtn = ({ className, children, childrenClassName, backlit = true }) => {
    return (
       <div className={cn("rounded-[4px] p-[0.5px]", backlit && "bg-white/[0.2] shadow-xl shadow-white")}>

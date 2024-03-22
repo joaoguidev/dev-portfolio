@@ -22,7 +22,7 @@ export default function Work() {
                         ))}
                      </div>
                      <div className="-px-5 mt-1 flex w-full flex-1 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]">
-                        <img src={item.imageUrl} alt="a" loading="lazy" className="mx-auto w-full rounded-lg object-cover p-2 "></img>
+                        <img src={item.imageUrl} alt="a" loading="lazy" className="mx-auto w-full rounded-lg object-cover p-2 " crossOrigin="true" />
                      </div>
                      {/* <div className="mt-4 flex w-full flex-1 rounded-lg bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" /> */}
                   </div>

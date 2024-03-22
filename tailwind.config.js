@@ -2,12 +2,17 @@
 const colors = require("tailwindcss/colors")
 const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette")
 const svgToDataUri = require("mini-svg-data-uri")
+const defaultTheme = require("tailwindcss/defaultTheme")
 
 export default {
    content: ["./app/**/*.{js,jsx,ts,tsx,mdx}"],
    darkMode: "class",
    theme: {
       extend: {
+         fontFamily: {
+            sans: ["Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
+         },
+
          boxShadow: {
             input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
          },

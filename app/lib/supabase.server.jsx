@@ -1,25 +1,35 @@
 import { createServerClient, parse, serialize } from "@supabase/ssr"
 import { createClient } from "@supabase/supabase-js"
 
+
+/**
+ * Exposes Supabase environment variables allowed to client-side.
+ * 
+ * @param {Object} context - The context object containing environment variables.
+ * @param {Object} context.cloudflare - Cloudflare environment variables.
+ * @param {string} context.cloudflare.env.SUPABASE_URL - The URL of the Supabase instance.
+ * @param {string} context.cloudflare.env.SUPABASE_ANON_KEY - The anonymous key for the Supabase instance.
+ * @returns {Object} - An object containing Supabase environment variables allowed for client-side use.
+ */
 export const getSupabaseEnv = (context) => ({
    SUPABASE_URL: context.cloudflare.env.SUPABASE_URL,
    SUPABASE_ANON_KEY: context.cloudflare.env.SUPABASE_ANON_KEY,
 })
 
-// export async function supabaseAdminUseOnlyServerSide({ context }) {
-//    const supabaseAdmin = await createClient(context.cloudflare.env.SUPABASE_URL, context.cloudflare.env.SUPABASE_SECRET_KEY, {
-//       auth: {
-//          autoRefreshToken: false,
-//          // persistSession: false,
-//       },
-//    })
-//    return supabaseAdmin
-// }
-
+/**
+ * Creates a Supabase client using server-side rendering (SSR) method without helpers.
+ * 
+ * @param {Object} params - Parameters object.
+ * @param {Object} params.request - The incoming request object.
+ * @param {Object} params.context - The context object containing environment variables.
+ * @param {Object} params.context.cloudflare - Cloudflare environment variables.
+ * @param {string} params.context.cloudflare.env.SUPABASE_URL - The URL of the Supabase instance.
+ * @param {string} params.context.cloudflare.env.SUPABASE_ANON_KEY - The anonymous key for the Supabase instance.
+ * @returns {Object} - An object containing the Supabase client instance and headers for SSR.
+ */
 export function getSupabaseWithHeaders({ request, context }) {
    const cookies = parse(request.headers.get("Cookie") ?? "")
    const headers = new Headers()
-
    const supabase = createServerClient(context.cloudflare.env.SUPABASE_URL, context.cloudflare.env.SUPABASE_ANON_KEY, {
       cookies: {
          get(key) {
@@ -36,9 +46,20 @@ export function getSupabaseWithHeaders({ request, context }) {
    return { supabase, headers }
 }
 
+/**
+ * Retrieves Supabase client with session and headers for server-side rendering (SSR).
+ * 
+ * @param {Object} params - Parameters object.
+ * @param {Object} params.request - The incoming request object.
+ * @param {Object} params.context - The context object containing environment variables.
+ * @param {Object} params.context.cloudflare - Cloudflare environment variables.
+ * @param {string} params.context.cloudflare.env.SUPABASE_URL - The URL of the Supabase instance.
+ * @param {string} params.context.cloudflare.env.SUPABASE_ANON_KEY - The anonymous key for the Supabase instance.
+ * @returns {Object} - An object containing Supabase client with session, headers, and user information.
+ */
 export async function getSupabaseWithSessionAndHeaders({ request, context }) {
    const { supabase, headers } = getSupabaseWithHeaders({ request, context })
-
+   
    const {
       data: { session: serverSession },
    } = await supabase.auth.getSession()
@@ -46,33 +67,22 @@ export async function getSupabaseWithSessionAndHeaders({ request, context }) {
    const {
       data: { user },
    } = await supabase.auth.getUser()
+  
    return { serverSession, headers, supabase, user }
 }
 
 /**
- * Protect routes that only authenticated users can have access
- *
- * @param {Object} request - The incoming request object.
- * @param {Object} context - Cloudflare context containing env vars
- * @param {string} redirectTo - Where to redirect if user is not authenticated
- * @throws {redirect} - Throws a redirect to the parameter 'redirectTo' if the user is not authenticated.
- * @returns {Object} Returns serverSession, headers, supabase, user.
+ * Creates a Supabase client to be used only server-side.
+ * 
+ * @param {Object} params - Parameters object.
+ * @param {Object} params.context - The context object containing environment variables.
+ * @param {Object} params.context.cloudflare - Cloudflare environment variables.
+ * @param {string} params.context.cloudflare.env.SUPABASE_URL - The URL of the Supabase instance.
+ * @param {string} params.context.cloudflare.env.SUPABASE_ANON_KEY - The anonymous key for the Supabase instance.
+ * @param {string} params.context.cloudflare.env.SUPABASE_SERVER_SIDE_ONLY_KEY - The server-side only key for the Supabase instance.
+ * @returns {Object} - An object containing the Supabase client instance configured for server-side use.
+ * @throws {Error} - Throws an error if something goes wrong during Supabase client creation.
  */
-// export async function protectRoute({ request, context, allowedRole }, redirectTo) {
-//    const { supabase, headers, serverSession } = await getSupabaseWithSessionAndHeaders({
-//       request,
-//       context,
-//    })
-//    const {
-//       data: { user },
-//    } = await supabase.auth.getUser()
-//    if (!serverSession || !user || user.role !== "manager_bem_indica") {
-//       throw redirect(redirectTo, { headers })
-//    }
-
-//    return { serverSession, headers, supabase, user }
-// }
-
 export async function createSupabaseServerSideOnly({ context }) {
    const options = {
       global: {
