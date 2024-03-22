@@ -1,8 +1,9 @@
-import CharacterCanvas from "../../components/canvas/Character"
+import { Link } from "@remix-run/react"
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react"
 import { CardGradient } from "../../components/CardGradient"
 import SectionHeading from "../../components/SectionHeading"
-import { introductionCard, introductionSectionHeading } from "../../lib/constants"
-
+import CharacterCanvas from "../../components/canvas/Character"
+import { introductionCard, introductionSectionHeading, mylinks } from "../../lib/constants"
 export default function Introduction() {
    return (
       <>
@@ -14,6 +15,14 @@ export default function Introduction() {
                      <CharacterCanvas />
                      <p className="mb-2 mt-4 text-base text-green-500 dark:text-neutral-200 sm:text-xl">{introductionCard.title}</p>
                      <p className="text-sm text-neutral-600 dark:text-neutral-400">{introductionCard.paragraph}</p>
+                     <div className="mt-4 flex w-full flex-row items-center justify-around text-white">
+                        <Link to={mylinks.linkedin} className="" target="_blank" rel="noopener noreferrer">
+                           <IconBrandLinkedin className="size-8 " />
+                        </Link>
+                        <Link to={mylinks.github} className="" target="_blank" rel="noopener noreferrer">
+                           <IconBrandGithub className="size-8 " />
+                        </Link>
+                     </div>
                   </CardGradient>
                </div>
             </div>
