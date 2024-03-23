@@ -27,10 +27,10 @@ export default async function handleRequest(request, responseStatusCode, respons
       await body.allReady
    }
 
-   //TODO - Figure out how to add a nonce to tailwind.css so I can add style-src and default-src 'none';
+   //TODO - Figure out how to add a nonce to tailwind.css so I don't have to use style-src 'unsafe-inline' ;
    responseHeaders.set(
       "Content-Security-Policy",
-      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL}; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src fonts.gstatic.com; `,
+      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL} https://calendar.google.com https://challenges.cloudflare.com/; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src 'self' https://fonts.gstatic.com; style-src https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; style-src-attr https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; default-src 'none'; frame-src https://calendar.google.com https://challenges.cloudflare.com;`,
    )
    // responseHeaders.set(
    //    "Content-Security-Policy",
@@ -58,7 +58,7 @@ export default async function handleRequest(request, responseStatusCode, respons
    responseHeaders.set("Feature-Policy", "geolocation 'none'; microphone 'none'; camera 'none' ")
 
    // Set the Cross-Origin-Embedder-Policy header to restrict how the document may be embedded on other origins.
-   responseHeaders.set("Cross-Origin-Embedder-Policy", "require-corp")
+   responseHeaders.set("Cross-Origin-Embedder-Policy", "same-origin")
 
    // Set the Cross-Origin-Resource-Policy header to restrict the cross-origin resources.
    responseHeaders.set("Cross-Origin-Resource-Policy", "same-origin")
