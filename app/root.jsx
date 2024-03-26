@@ -1,4 +1,5 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, json, useLoaderData, useRouteError } from "@remix-run/react"
+import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix"
 import { useContext } from "react"
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react"
 import { csrf } from "./lib/form_security/csrf.server"
@@ -26,7 +27,7 @@ export function Layout({ children }) {
    )
 }
 
-export default function App() {
+function App() {
    const { env, serverSession, domainUrl, token } = useLoaderData()
    const { supabase } = useSupabase({ env, serverSession })
    return (
@@ -35,6 +36,8 @@ export default function App() {
       </AuthenticityTokenProvider>
    )
 }
+export default withSentry(App)
+
 //SECTION LOADER
 export const loader = async ({ request, context }) => {
    console.log("---------- ROOT LOADER ----------")
@@ -55,3 +58,12 @@ export const loader = async ({ request, context }) => {
    })
 }
 //!SECTION
+
+//SECTION - SENTRY - To capture errors from ErrorBoundary defined by myself
+export const ErrorBoundary = () => {
+   const error = useRouteError()
+
+   captureRemixErrorBoundaryError(error)
+
+   return <div> ... </div>
+}

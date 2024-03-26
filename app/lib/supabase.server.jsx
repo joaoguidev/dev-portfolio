@@ -1,10 +1,9 @@
 import { createServerClient, parse, serialize } from "@supabase/ssr"
 import { createClient } from "@supabase/supabase-js"
 
-
 /**
  * Exposes Supabase environment variables allowed to client-side.
- * 
+ *
  * @param {Object} context - The context object containing environment variables.
  * @param {Object} context.cloudflare - Cloudflare environment variables.
  * @param {string} context.cloudflare.env.SUPABASE_URL - The URL of the Supabase instance.
@@ -18,7 +17,7 @@ export const getSupabaseEnv = (context) => ({
 
 /**
  * Creates a Supabase client using server-side rendering (SSR) method without helpers.
- * 
+ *
  * @param {Object} params - Parameters object.
  * @param {Object} params.request - The incoming request object.
  * @param {Object} params.context - The context object containing environment variables.
@@ -48,7 +47,7 @@ export function getSupabaseWithHeaders({ request, context }) {
 
 /**
  * Retrieves Supabase client with session and headers for server-side rendering (SSR).
- * 
+ *
  * @param {Object} params - Parameters object.
  * @param {Object} params.request - The incoming request object.
  * @param {Object} params.context - The context object containing environment variables.
@@ -59,7 +58,7 @@ export function getSupabaseWithHeaders({ request, context }) {
  */
 export async function getSupabaseWithSessionAndHeaders({ request, context }) {
    const { supabase, headers } = getSupabaseWithHeaders({ request, context })
-   
+
    const {
       data: { session: serverSession },
    } = await supabase.auth.getSession()
@@ -67,13 +66,13 @@ export async function getSupabaseWithSessionAndHeaders({ request, context }) {
    const {
       data: { user },
    } = await supabase.auth.getUser()
-  
+
    return { serverSession, headers, supabase, user }
 }
 
 /**
  * Creates a Supabase client to be used only server-side.
- * 
+ *
  * @param {Object} params - Parameters object.
  * @param {Object} params.context - The context object containing environment variables.
  * @param {Object} params.context.cloudflare - Cloudflare environment variables.
@@ -93,4 +92,3 @@ export async function createSupabaseServerSideOnly({ context }) {
 
    return { supabaseServerSideOnly }
 }
-

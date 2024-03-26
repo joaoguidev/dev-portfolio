@@ -3,9 +3,24 @@
  */
 
 import { RemixServer } from "@remix-run/react"
+import * as Sentry from "@sentry/remix"
+import { wrapRemixHandleError } from "@sentry/remix"
 import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
 import { NonceContext } from "./lib/nonce-context"
+
+//ANCHOR - Sentry - Enable to capture server-side errors automatically
+export const handleError = wrapRemixHandleError
+
+//ANCHOR - Sentry - Init server-side
+Sentry.init({
+   dsn: "https://3c30760472749bd3dd6c98bfe3785b07@o4505840240820224.ingest.us.sentry.io/4506978046705664",
+
+   // Set tracesSampleRate to 1.0 to capture 100%
+   // of transactions for performance monitoring.
+   // We recommend adjusting this value in production
+   tracesSampleRate: 1.0,
+})
 
 export default async function handleRequest(request, responseStatusCode, responseHeaders, remixContext, loadContext) {
    const cspNonce = crypto.randomUUID()
@@ -30,12 +45,8 @@ export default async function handleRequest(request, responseStatusCode, respons
    //TODO - Figure out how to add a nonce to tailwind.css so I don't have to use style-src 'unsafe-inline' ;
    responseHeaders.set(
       "Content-Security-Policy",
-      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL} https://calendar.google.com https://challenges.cloudflare.com/; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src 'self' https://fonts.gstatic.com; style-src https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; style-src-attr https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; default-src 'none'; frame-src https://calendar.google.com https://challenges.cloudflare.com;`,
+      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' https://*.ingest.us.sentry.io ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL} https://calendar.google.com https://challenges.cloudflare.com/ ; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src 'self' https://fonts.gstatic.com; style-src https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; style-src-attr https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; default-src 'none'; frame-src https://calendar.google.com https://challenges.cloudflare.com; report-uri https://o4505840240820224.ingest.sentry.io/api/4506978046705664/security/?sentry_key=3c30760472749bd3dd6c98bfe3785b07;`,
    )
-   // responseHeaders.set(
-   //    "Content-Security-Policy",
-   //    `script-src 'nonce-${cspNonce}' 'strict-dynamic'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; connect-src ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL}; form-action 'self'; style-src 'self' 'nonce-${cspNonce}'; upgrade-insecure-requests; default-src 'none'; font-src 'self'; style-src-attr 'self' ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL}; img-src 'self';`,
-   // )
    // Set the Content-Type header to specify that the response is HTML encoded in UTF-8.
    responseHeaders.set("Content-Type", "text/html; charset=UTF-8")
 
@@ -71,6 +82,9 @@ export default async function handleRequest(request, responseStatusCode, respons
 
    // Set the X-Permitted-Cross-Domain-Policies header to restrict Adobe Flash Player's access to data across domains.
    responseHeaders.set("X-Permitted-Cross-Domain-Policies", "none")
+   
+   //Set HTTP Public Key Pinning (HPKP) - It is a security feature that tells a web client to associate a specific cryptographic public key with a certain web server to decrease the risk of MITM attacks with forged certificates. 
+   responseHeaders.set("Public-Key-Pins", "report-uri=https://o4505840240820224.ingest.sentry.io/api/4506978046705664/security/?sentry_key=3c30760472749bd3dd6c98bfe3785b07")
 
    // responseHeaders.set("Access-Control-Allow-Origin", "*")
 
