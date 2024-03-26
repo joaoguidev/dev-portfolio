@@ -38,7 +38,7 @@ export const introductionSectionHeading = {
 export const introductionCard = {
    title: "Joao Dantas",
    paragraph:
-      "Transitioning from a career as a financial analyst, I embarked on a new chapter in computer studies, leaving behind the bustling finance world for the innovative realm of technology. Hailing from Brazil, I chose Langara as my gateway to this exciting field, where I eagerly absorbed new knowledge and honed my skills. Through dedication and perseverance, I transformed into a proficient computer studies professional, equipped to thrive in the ever-evolving landscape of technology.",
+      "Transitioning from a career as a financial analyst, I embarked on a new chapter in computer studies, leaving behind the bustling finance world for the innovative realm of technology. Hailing from Brazil, I chose Langara as my gateway to this exciting field, where I eagerly absorbed new knowledge and honed my skills. Through dedication and perseverance, I transformed into a proficient developer, equipped to thrive in the ever-evolving landscape of technology.",
 }
 
 //ANCHOR - My profile links
