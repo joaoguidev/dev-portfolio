@@ -4,13 +4,13 @@
 
 import { RemixServer } from "@remix-run/react"
 import * as Sentry from "@sentry/remix"
-import { wrapRemixHandleError } from "@sentry/remix"
+// import { wrapRemixHandleError } from "@sentry/remix"
 import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
 import { NonceContext } from "./lib/nonce-context"
 
 //ANCHOR - Sentry - Enable to capture server-side errors automatically
-export const handleError = wrapRemixHandleError
+// export const handleError = wrapRemixHandleError
 
 //ANCHOR - Sentry - Init server-side
 Sentry.init({
