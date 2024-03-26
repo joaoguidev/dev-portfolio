@@ -4,7 +4,7 @@ This portfolio is designed with security as the top priority, utilizing various 
 ### Technologies Used:
 
 - **Remix**: Provides a solid foundation for building web applications with a focus on performance and developer experience.
-- **Supabase**: PostgreSQL open-source alternative to Firebase. It is scalable, secure and also offers auth solution.
+- **Supabase**: PostgreSQL open-source alternative to Firebase. It is scalable, secure and also offers auth solutions.
 - **Sentry**: Ensures robust error tracking and monitoring, allowing for quick identification and resolution of issues.
 - **Zod**: Implements input validation for data integrity and security.
 - **Sanitize-html**: Enforces sanitization to prevent XSS (Cross-Site Scripting) attacks and code injections.
