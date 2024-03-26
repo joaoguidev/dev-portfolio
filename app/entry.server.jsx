@@ -15,7 +15,6 @@ import { NonceContext } from "./lib/nonce-context"
 //ANCHOR - Sentry - Init server-side
 Sentry.init({
    dsn: "https://3c30760472749bd3dd6c98bfe3785b07@o4505840240820224.ingest.us.sentry.io/4506978046705664",
-
    // Set tracesSampleRate to 1.0 to capture 100%
    // of transactions for performance monitoring.
    // We recommend adjusting this value in production
