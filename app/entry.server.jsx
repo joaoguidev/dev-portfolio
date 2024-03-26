@@ -22,7 +22,8 @@ Sentry.init({
 })
 
 export default async function handleRequest(request, responseStatusCode, responseHeaders, remixContext, loadContext) {
-   const cspNonce = crypto.randomUUID()
+   const cspNonce = 'aquiii'
+   // const cspNonce = crypto.randomUUID()
    const body = await renderToReadableStream(
       <NonceContext.Provider value={cspNonce}>
          <RemixServer context={remixContext} url={request.url} />
@@ -44,7 +45,7 @@ export default async function handleRequest(request, responseStatusCode, respons
    //TODO - Figure out how to add a nonce to tailwind.css so I don't have to use style-src 'unsafe-inline' ;
    responseHeaders.set(
       "Content-Security-Policy",
-      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' https://*.ingest.us.sentry.io ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL} https://calendar.google.com https://challenges.cloudflare.com/ ; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src 'self' https://fonts.gstatic.com; style-src https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; style-src-attr https://fonts.googleapis.com 'unsafe-inline' 'self' fonts.gstatic.com; default-src 'none'; frame-src https://calendar.google.com https://challenges.cloudflare.com; report-uri https://o4505840240820224.ingest.sentry.io/api/4506978046705664/security/?sentry_key=3c30760472749bd3dd6c98bfe3785b07;`,
+      `script-src 'nonce-${cspNonce}' 'strict-dynamic'; base-uri 'none'; frame-ancestors 'none'; object-src 'self'; connect-src 'self' https://*.ingest.us.sentry.io ${loadContext.cloudflare.env.SUPABASE_URL} ${loadContext.cloudflare.env.DEVELOPMENT_TUNNEL} https://calendar.google.com https://challenges.cloudflare.com/ ; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: ; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'nonce-${cspNonce}' fonts.gstatic.com; style-src-attr 'self' https://fonts.googleapis.com 'unsafe-inline' fonts.gstatic.com; default-src 'none'; frame-src https://calendar.google.com https://challenges.cloudflare.com; report-uri https://o4505840240820224.ingest.sentry.io/api/4506978046705664/security/?sentry_key=3c30760472749bd3dd6c98bfe3785b07;`,
    )
    // Set the Content-Type header to specify that the response is HTML encoded in UTF-8.
    responseHeaders.set("Content-Type", "text/html; charset=UTF-8")

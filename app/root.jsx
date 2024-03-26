@@ -6,7 +6,9 @@ import { csrf } from "./lib/form_security/csrf.server"
 import { NonceContext } from "./lib/nonce-context"
 import { useSupabase } from "./lib/supabase-browser"
 import { getSupabaseEnv, getSupabaseWithSessionAndHeaders } from "./lib/supabase.server"
-import "./tailwind.css"
+import styles from "./tailwind.css?url"
+
+export const links = () => [{ rel: "stylesheet", href: styles }]
 
 export function Layout({ children }) {
    const nonce = useContext(NonceContext)
@@ -15,8 +17,8 @@ export function Layout({ children }) {
          <head>
             <meta charSet="utf-8 " />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <Meta />
-            <Links />
+            <Meta nonce={nonce} />
+            <Links nonce={nonce} />
          </head>
          <body className="m-0 size-full overflow-x-hidden bg-white p-0 dark:bg-black">
             {children}
