@@ -1,9 +1,11 @@
-import { Link } from "@remix-run/react"
+import { Form, Link } from "@remix-run/react"
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react"
 import { CardGradient } from "../../components/CardGradient"
 import SectionHeading from "../../components/SectionHeading"
 import CharacterCanvas from "../../components/canvas/Character"
+import AiForm from "../../components/forms/AiForm"
 import { introductionCard, introductionSectionHeading, mylinks } from "../../lib/constants"
+
 export default function Introduction() {
    return (
       <>

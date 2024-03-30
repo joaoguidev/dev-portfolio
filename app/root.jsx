@@ -67,5 +67,16 @@ export const ErrorBoundary = () => {
 
    captureRemixErrorBoundaryError(error)
 
-   return <div> ... </div>
+   if (error instanceof Error) {
+      return <div className="text-white">An unexpected error occurred: {error.message}</div>
+   }
+
+   if (!isRouteErrorResponse(error)) {
+      return <h1 className="text-white">Unknown Error</h1>
+   }
+
+   return <div className="text-white">An unexpected error occurred: {error.statusText}</div>
 }
+//!SECTION
+
+

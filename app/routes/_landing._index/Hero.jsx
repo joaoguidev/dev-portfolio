@@ -1,4 +1,3 @@
-import { useOutletContext } from "@remix-run/react"
 import {
    IconBrightnessDown,
    IconBrightnessUp,
@@ -24,9 +23,10 @@ import { motion, stagger, useAnimate, useInView, useScroll, useTransform } from 
 import { useEffect, useRef, useState } from "react"
 import { cn } from "../../utils/cn"
 import { typewriterWords , heroH1 } from '../../lib/constants'
+import { useOutletContext } from "@remix-run/react"
 
 export default function Hero() {
-   const outletContext = useOutletContext()
+   const outletContext = useOutletContext() 
    return (
       <div className="w-full overflow-hidden ">
          <MacbookScroll

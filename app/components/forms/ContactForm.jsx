@@ -5,7 +5,7 @@ import { IconAlertTriangle, IconMailbox } from "@tabler/icons-react"
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
 import { forwardRef, useEffect, useState } from "react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
-import { cn } from "../utils/cn"
+import { cn } from "../../utils/cn"
 
 export default function ContactForm() {
    const { env } = useOutletContext()
@@ -133,7 +133,7 @@ export default function ContactForm() {
                      </span>
                   )}
                   <div className="mt-8 w-full">
-                     <Turnstile className="mx-auto" siteKey={env.CLOUDFLARE_TURNSTILE_SITE_KEY} />
+                     <Turnstile id="widget-1" className="mx-auto" siteKey={env.CLOUDFLARE_TURNSTILE_SITE_KEY} />
                   </div>
                </Form>
             )}

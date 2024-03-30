@@ -1,16 +1,18 @@
-import { json } from "@remix-run/react"
+import { Outlet, isRouteErrorResponse, json, useRouteError } from "@remix-run/react"
 import StarsCanvas from "../../components/canvas/Stars"
+import { generateEmbeddingAi } from "../../lib/ai.server"
 import { sendTransactionalEmail } from "../../lib/email.server"
 import { csrf } from "../../lib/form_security/csrf.server"
 import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
 import { sanitizeString } from "../../lib/input_security/sanitizer.server"
 import { validateSchema } from "../../lib/input_security/validation.server"
 import { getSupabaseWithHeaders } from "../../lib/supabase.server"
+import Ai from "./Ai"
 import Contact from "./Contact"
 import Hero from "./Hero"
 import Introduction from "./Introduction"
 import Work from "./Work"
-import { getSchemaContact } from "./schemas"
+import { getSchemaChatbot, getSchemaContact } from "./schemas"
 
 export const meta = () => {
    return [{ title: "Joao Dantas - Web Developer Portfolio" }, { name: "description", content: "Welcome to the portfolio of Joao Dantas, showcasing web development projects and skills." }]
@@ -19,6 +21,7 @@ export const meta = () => {
 export default function Landing() {
    return (
       <div className="dark:bg-inherit">
+               <Ai />
          <Hero className="dark:bg-inherit" />
          <div className="relative w-full bg-grid-small-white/25">
             <div className="absolute left-0 top-0 z-0 h-24  w-full bg-gradient-to-b from-black via-black to-transparent"></div>
@@ -84,6 +87,20 @@ export const action = async ({ request, context }) => {
          }
          //Schema validation failed
          return json({ success: false, errors: cleanContactData?.errors }, { headers })
+      }
+      // ANCHOR - Case: Chatbot
+      case "chatbot": {
+         //Get the schema to be validated
+         const schemaChatbot = await getSchemaChatbot()
+         //Schema Validation
+         const cleanChatbotData = await validateSchema(schemaChatbot, dirtyData)
+         //Validation successful
+         if (cleanChatbotData.success) {
+            await generateEmbeddingAi(cleanChatbotData.cleanData, context)
+            // const url = new URL(request.url)
+            // console.log("AAAAAAAAAAAAAAAAAAAAAAAAA", url)
+         }
+         return json({ success: false, errors: cleanChatbotData?.errors }, { headers })
       }
    }
    return json({}, { headers })

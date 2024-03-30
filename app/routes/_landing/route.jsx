@@ -1,10 +1,6 @@
 import { Outlet, json, useOutletContext } from "@remix-run/react"
 import { getSupabaseWithHeaders } from "../../lib/supabase.server"
 
-export const meta = () => {
-   return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }]
-}
-
 export default function landingLayout() {
    const outletContext = useOutletContext()
    return (

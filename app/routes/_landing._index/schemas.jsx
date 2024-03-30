@@ -39,3 +39,18 @@ export async function getSchemaContact() {
    })
    return schema
 }
+
+export async function getSchemaChatbot() {
+   const schema = await z.object({
+      question: z
+         .string({ required_error: "Question field required" })
+         .trim()
+         .min(1, { question: "Question field required" })
+         .max(5000, { question: "Question too long" })
+         .refine((value) => /^[a-zA-Z0-9\s.,;:!?'"()]+$/.test(value), {
+            question: "Invalid character in the question field",
+        }),
+        'cf-turnstile-response': z.string({ required_error: "Missing Captcha" }).min(1, { question: "Error. Missing Captcha. Contact Us" }).max(5000, { question: "Error. Missing Captcha. Contact Us" }),
+   })
+   return schema
+}
