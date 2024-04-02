@@ -21,8 +21,8 @@ export const meta = () => {
 export default function Landing() {
    return (
       <div className="dark:bg-inherit">
-               <Ai />
          <Hero className="dark:bg-inherit" />
+         <Ai />
          <div className="relative w-full bg-grid-small-white/25">
             <div className="absolute left-0 top-0 z-0 h-24  w-full bg-gradient-to-b from-black via-black to-transparent"></div>
             <div className="absolute bottom-0 left-0 z-0 h-24  w-full bg-gradient-to-t from-black via-black to-transparent"></div>
@@ -58,7 +58,7 @@ export const action = async ({ request, context }) => {
    const { headers } = await getSupabaseWithHeaders({ request, context })
    //Parsing the incoming request body
    const formData = await request.formData()
-   const dirtyData = await Object.fromEntries(formData)
+   const dirtyData = Object.fromEntries(formData)
 
    switch (dirtyData.intent) {
       // ANCHOR - Case: contact form sent
@@ -70,7 +70,7 @@ export const action = async ({ request, context }) => {
          //Validation successful
          if (cleanContactData.success) {
             //Validate turnstile token on server-side to protect agains bots. Case invalid iit returns null
-            if (!(await validateTurnstileServerSide({ context, cleanContactData }))) {
+            if (!(await validateTurnstileServerSide({ turnstileSecretKey: context.cloudflare.env.CLOUDFLARE_TURNSTILE_SECRET_KEY, turnstileGeneratedToken: cleanContactData?.cleanData["cf-turnstile-response"] }))) {
                //Turnstile validation failed
                return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
             }
@@ -79,7 +79,7 @@ export const action = async ({ request, context }) => {
             //If not success it returns a messageId
             if (emailStatus?.messageId) {
                //ALL success
-               return json({ success: true }, { headers })
+               return json({ success: true, intent: "contact" }, { headers })
             } else {
                //Sending the email falied due to not having returns a messageId
                return json({ success: false, errors: { emailSender: "Apologies! Please try again in 10 minutes. My email sender is experiencing higher than usual load." } }, { headers })
@@ -96,9 +96,20 @@ export const action = async ({ request, context }) => {
          const cleanChatbotData = await validateSchema(schemaChatbot, dirtyData)
          //Validation successful
          if (cleanChatbotData.success) {
-            await generateEmbeddingAi(cleanChatbotData.cleanData, context)
-            // const url = new URL(request.url)
-            // console.log("AAAAAAAAAAAAAAAAAAAAAAAAA", url)
+            try {
+               //Validate turnstile token on server-side to protect agains bots. Case invalid iit returns null
+               if (!(await validateTurnstileServerSide({ turnstileSecretKey: context.cloudflare.env.CLOUDFLARE_TURNSTILE_HIDDEN_SECRET_KEY, turnstileGeneratedToken: cleanChatbotData?.cleanData["cf-turnstile-response"] }))) {
+                  //Turnstile validation failed
+                  return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
+               } else {
+
+                  const aiAnswer = await generateEmbeddingAi(cleanChatbotData.cleanData, context)
+                  // const aiAnswer = { success: true, aiData: { question: "Tell me about his dog.", aiAnswer: "Yes, Joao Dantas has a dog named Darwin." } }
+                  return json(aiAnswer, { headers })
+               }
+            } catch (error) {
+               return json({ success: false, errors: { unexpected: "Sorry. The API call limit was exceeded. Please try again in 5 minute." } }, { headers })
+            }
          }
          return json({ success: false, errors: cleanChatbotData?.errors }, { headers })
       }

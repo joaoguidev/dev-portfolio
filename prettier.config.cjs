@@ -4,7 +4,7 @@ module.exports = {
    organizeImportsSkipDestructiveCodeActions: true,
    tailwindFunctions: ["clsx"],
    tabWidth: 3,
-   printWidth: 300,
+   printWidth: 500,
    semi: false,
    bracketSameLine: true
 };

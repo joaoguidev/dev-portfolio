@@ -23,7 +23,7 @@ export default function ContactForm() {
             <h2 id="contactForm" className="text-4xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-5xl">
                Get in touch
             </h2>
-            {actionData?.success === true ? (
+            {actionData?.success === true && actionData?.indent === "contact" ? (
                <div className="flex size-full flex-col items-center justify-center gap-5 font-semibold text-white">
                   <div className="mt-10">
                      <IconMailbox className="size-20 dark:text-green-400" />
@@ -116,9 +116,7 @@ export default function ContactForm() {
                      )}
                   </LabelInputContainer>
 
-                  <button
-                     className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-700 dark:from-zinc-800 dark:to-zinc-800 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-                     type="submit">
+                  <button className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-700 dark:from-zinc-800 dark:to-zinc-800 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]" type="submit">
                      Submit
                      <BottomGradient />
                   </button>

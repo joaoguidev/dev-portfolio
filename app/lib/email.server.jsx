@@ -1,3 +1,11 @@
+/**
+ * Send a transactional email.
+ * @param {Object} context - The context object containing environment variables.
+ * @param {string} clientName - The name of the client.
+ * @param {string} emailTo - The recipient's email address.
+ * @param {string} userSentMessage - The message sent by the user.
+ * @returns {Promise<Object>} - A promise that resolves with the response data from the email service.
+ */
 export async function sendTransactionalEmail(context, clientName, emailTo, userSentMessage) {
    context.cloudflare.env
    const response = await fetch("https://api.brevo.com/v3/smtp/email", {

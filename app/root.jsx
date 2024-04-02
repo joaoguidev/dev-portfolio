@@ -55,6 +55,7 @@ export const loader = async ({ request, context }) => {
    env.PATH_MACBOOK_SCREEN_IMAGE = context.cloudflare.env.PATH_MACBOOK_SCREEN_IMAGE
    env.GOOGLE_MAPS_API_KEY = context.cloudflare.env.GOOGLE_MAPS_API_KEY
    env.CLOUDFLARE_TURNSTILE_SITE_KEY = context.cloudflare.env.CLOUDFLARE_TURNSTILE_SITE_KEY
+   env.CLOUDFLARE_TURNSTILE_HIDDEN_SITE_KEY = context.cloudflare.env.CLOUDFLARE_TURNSTILE_HIDDEN_SITE_KEY
    return json({ serverSession, env, domainUrl, token }, ...headers, {
       headers: { "set-cookie": cookieHeader },
    })
