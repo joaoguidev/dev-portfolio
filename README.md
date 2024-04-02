@@ -15,7 +15,7 @@ This portfolio is designed with security as the top priority, utilizing various 
 - **Cloudflare Web Application Firewall (WAF)**: For additional layers of security.
 - **Cloudflare and Cloudflare Pages**: Provides enhanced website performance, security, and scalability through robust content delivery and efficient deployment infrastructure.
 
-Test https://joaodev.work on [ Mozila Observatory -> ](https://observatory.mozilla.org/)
+Test https://joaodev.work on [ Mozilla Observatory -> ](https://observatory.mozilla.org/)
 
 ![image](https://github.com/joaoguidev/dev-portfolio/assets/63625334/932ebb7c-a51b-43a0-9210-aebad2629022)
 
