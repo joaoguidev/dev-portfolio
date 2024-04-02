@@ -1,13 +1,13 @@
 import { Outlet, isRouteErrorResponse, json, useRouteError } from "@remix-run/react"
 import StarsCanvas from "../../components/canvas/Stars"
-// import { generateEmbeddingAi } from "../../lib/ai.server"
+import { generateEmbeddingAi } from "../../lib/ai.server"
 import { sendTransactionalEmail } from "../../lib/email.server"
 import { csrf } from "../../lib/form_security/csrf.server"
 import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
 import { sanitizeString } from "../../lib/input_security/sanitizer.server"
 import { validateSchema } from "../../lib/input_security/validation.server"
 import { getSupabaseWithHeaders } from "../../lib/supabase.server"
-// import Ai from "./Ai"
+import Ai from "./Ai"
 import Contact from "./Contact"
 import Hero from "./Hero"
 import Introduction from "./Introduction"
@@ -22,7 +22,7 @@ export default function Landing() {
    return (
       <div className="dark:bg-inherit">
          <Hero className="dark:bg-inherit" />
-         {/* <Ai /> */}
+         <Ai />
          <div className="relative w-full bg-grid-small-white/25">
             <div className="absolute left-0 top-0 z-0 h-24  w-full bg-gradient-to-b from-black via-black to-transparent"></div>
             <div className="absolute bottom-0 left-0 z-0 h-24  w-full bg-gradient-to-t from-black via-black to-transparent"></div>
@@ -89,30 +89,30 @@ export const action = async ({ request, context }) => {
          return json({ success: false, errors: cleanContactData?.errors }, { headers })
       }
       // ANCHOR - Case: Chatbot
-      // case "chatbot": {
-      //    //Get the schema to be validated
-      //    const schemaChatbot = await getSchemaChatbot()
-      //    //Schema Validation
-      //    const cleanChatbotData = await validateSchema(schemaChatbot, dirtyData)
-      //    //Validation successful
-      //    if (cleanChatbotData.success) {
-      //       try {
-      //          //Validate turnstile token on server-side to protect agains bots. Case invalid iit returns null
-      //          if (!(await validateTurnstileServerSide({ turnstileSecretKey: context.cloudflare.env.CLOUDFLARE_TURNSTILE_HIDDEN_SECRET_KEY, turnstileGeneratedToken: cleanChatbotData?.cleanData["cf-turnstile-response"] }))) {
-      //             //Turnstile validation failed
-      //             return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
-      //          } else {
+      case "chatbot": {
+         //Get the schema to be validated
+         const schemaChatbot = await getSchemaChatbot()
+         //Schema Validation
+         const cleanChatbotData = await validateSchema(schemaChatbot, dirtyData)
+         //Validation successful
+         if (cleanChatbotData.success) {
+            try {
+               //Validate turnstile token on server-side to protect agains bots. Case invalid iit returns null
+               if (!(await validateTurnstileServerSide({ turnstileSecretKey: context.cloudflare.env.CLOUDFLARE_TURNSTILE_HIDDEN_SECRET_KEY, turnstileGeneratedToken: cleanChatbotData?.cleanData["cf-turnstile-response"] }))) {
+                  //Turnstile validation failed
+                  return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
+               } else {
 
-      //             const aiAnswer = await generateEmbeddingAi(cleanChatbotData.cleanData, context)
-      //             // const aiAnswer = { success: true, aiData: { question: "Tell me about his dog.", aiAnswer: "Yes, Joao Dantas has a dog named Darwin." } }
-      //             return json(aiAnswer, { headers })
-      //          }
-      //       } catch (error) {
-      //          return json({ success: false, errors: { unexpected: "Sorry. The API call limit was exceeded. Please try again in 5 minute." } }, { headers })
-      //       }
-      //    }
-      //    return json({ success: false, errors: cleanChatbotData?.errors }, { headers })
-      // }
+                  const aiAnswer = await generateEmbeddingAi(cleanChatbotData.cleanData, context)
+                  // const aiAnswer = { success: true, aiData: { question: "Tell me about his dog.", aiAnswer: "Yes, Joao Dantas has a dog named Darwin." } }
+                  return json(aiAnswer, { headers })
+               }
+            } catch (error) {
+               return json({ success: false, errors: { unexpected: "Sorry. The API call limit was exceeded. Please try again in 5 minute." } }, { headers })
+            }
+         }
+         return json({ success: false, errors: cleanChatbotData?.errors }, { headers })
+      }
    }
    return json({}, { headers })
 }
