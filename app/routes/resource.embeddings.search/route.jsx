@@ -48,19 +48,19 @@ export const action = async ({ request, context }) => {
       }
       if (contextText) {
          try {
-            const message = stripIndent`
+            const message = stripIndent`${oneLine `
             Context sections:
             ${contextText}
             Question: """
             ${question}
             """
-          `
+          `}`
             //ANCHOR - Use the completion API wuith the question context
             const completionResponse = await openai.chat.completions.create({
                messages: [
                   {
                      role: "system",
-                     content: `You are a very enthusiastic assistant who answers questions about the web developer Joao Dantas. Given the following information about Joao Dantas' professional resume and curiosities, answer the question using only that information, outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."`,
+                     content: stripIndent`${oneLine `You are a very enthusiastic and polite assistant who answers questions about the web developer Joao Dantas. Given the following information about the web developer Joao Dantas, answer the question using  as source only the information defined in the 'Context sections'. If you are unsure and the answer material is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."`}`,
                   },
                   { role: "user", content: message },
                ],
@@ -101,7 +101,7 @@ async function matchDocuments({ embedding, supabaseServerSideOnly }) {
    try {
       const { data, error } = await supabaseServerSideOnly.rpc("match_documents", {
          query_embedding: embedding, // Vector format
-         match_threshold: 0.3, // Only similarity higher than that will be returned from db
+         match_threshold: 0.2, // Only similarity higher than that will be returned from db
          match_count: 10, // Max number of matches
       })
       console.log(JSON.stringify(data))
