@@ -1,6 +1,6 @@
-import { Outlet, isRouteErrorResponse, json, useRouteError } from "@remix-run/react"
+import { json } from "@remix-run/react"
 import StarsCanvas from "../../components/canvas/Stars"
-import { generateEmbeddingAi } from "../../lib/ai.server"
+// import { generateEmbeddingAi } from "../../lib/ai.server"
 import { sendTransactionalEmail } from "../../lib/email.server"
 import { csrf } from "../../lib/form_security/csrf.server"
 import { validateTurnstileServerSide } from "../../lib/form_security/turnstile.server"
@@ -103,9 +103,9 @@ export const action = async ({ request, context }) => {
                   return json({ success: false, errors: { turnstile: "Invalid form validation" } }, { headers })
                } else {
 
-                  const aiAnswer = await generateEmbeddingAi(cleanChatbotData.cleanData, context)
-                  // const aiAnswer = { success: true, aiData: { question: "Tell me about his dog.", aiAnswer: "Yes, Joao Dantas has a dog named Darwin." } }
-                  return json(aiAnswer, { headers })
+                  // const aiAnswer = await generateEmbeddingAi(cleanChatbotData.cleanData, context)
+                  const aiAnswer = { success: true, aiData: { question: "Tell me about his dog.", aiAnswer: "Yes, Joao Dantas has a dog named Darwin." } }
+                  return json( aiAnswer, { headers })
                }
             } catch (error) {
                return json({ success: false, errors: { unexpected: "Sorry. The API call limit was exceeded. Please try again in 5 minute." } }, { headers })

@@ -71,7 +71,7 @@ export const action = async ({ request, context }) => {
             //ANCHOR - Extract the answer
             const answer = completionResponse.choices[0].message.content
             // Save question and answer made in DB
-            const { error } = await supabaseServerSideOnly.from('user_questions').insert({ question: question, answer: answer })
+            const { error } = await supabaseServerSideOnly.from('user_questions').insert({ question: question, answer: answer, documents: documents })
             if (error) {
                console.log(error)
                throw new Error("Something went wrong inserting answer! ")

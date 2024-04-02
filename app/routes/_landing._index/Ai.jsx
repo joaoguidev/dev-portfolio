@@ -8,8 +8,8 @@ import { cn } from "../../utils/cn"
 export default function Ai() {
    const [hovered, setHovered] = useState(false)
    return (
-      <div className="mx-auto max-w-5xl rounded-3xl">
-         <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} className="relative mx-auto flex w-full flex-col items-center justify-start gap-4 overflow-hidden rounded-3xl bg-black px-2 sm:px-8 ">
+      <div className="mx-auto max-w-5xl rounded-3xl px-2 sm:px-0">
+         <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} className="relative mx-auto flex w-full flex-col items-center justify-start gap-4 overflow-hidden rounded-3xl bg-black px-2 sm:px-5 ">
             <AnimatePresence>
                {hovered && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 h-full w-full">

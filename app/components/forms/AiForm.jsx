@@ -38,7 +38,7 @@ export default function AiForm() {
    }
    return (
       <div className="z-30 mx-auto w-full">
-         <div className="mx-auto mt-20  w-full max-w-lg">
+         <div className="mx-auto mt-10  w-full max-w-lg">
             <div className="mb-5 w-full">
                <IconRobot className="mx-auto size-10 text-white" />
             </div>
@@ -120,17 +120,17 @@ export default function AiForm() {
                </div>
             </Form>
             {/* //SECTION - AI Chat Answer Section  */}
-            <div className="mt-20  max-h-64 min-h-64 w-full overflow-y-auto">
+            <div className="mt-10  max-h-64 min-h-64 w-full overflow-y-auto">
                {chat ? (
-                  <ul className="mx-auto flex flex-col gap-4 text-sm">
+                  <ul className="mx-auto flex flex-col gap-4 ">
                      <li className="flex flex-col gap-3">
-                        <div className="flex flex-row items-start justify-start gap-2 rounded-lg border border-white/20 bg-zinc-300/10 px-1 py-3 text-white/70">
-                           <IconHelpCircleFilled className="size-5" />
-                           <p className="h-full w-full  ">{chat?.question} </p>
+                        <div className="flex flex-row items-start justify-start gap-2 rounded-lg border border-white/20 bg-zinc-300/10 px-1 py-5 text-white/70 ">
+                           <IconHelpCircleFilled className="size-6" />
+                           <p className="h-full w-full font-medium">{chat?.question} </p>
                         </div>
-                        <div className="flex flex-row items-start justify-start gap-2 rounded-lg border border-white/20 bg-zinc-300/10 px-2 py-3 text-white/70">
-                           <IconMessageChatbot className="size-5" />
-                           <p className="h-full w-full  ">{chat?.aiAnswer}</p>
+                        <div className="flex flex-row items-start justify-start gap-2 rounded-lg border border-white/20 bg-zinc-300/10 px-2 py-5 text-white/70">
+                           <IconMessageChatbot className="size-6" />
+                           <p className="h-full w-full">{chat?.aiAnswer}</p>
                         </div>
                      </li>
                   </ul>
