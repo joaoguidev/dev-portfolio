@@ -31,7 +31,7 @@ export default function Landing() {
                <Work />
             </div>
          </div>
-         <div className="relative flex size-full">
+         <div className="relative flex size-full ">
             <StarsCanvas />
             <Contact />
          </div>
