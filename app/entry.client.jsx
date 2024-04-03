@@ -11,6 +11,7 @@ import { useLocation, useMatches } from "@remix-run/react";
 import * as Sentry from "@sentry/remix";
 
 Sentry.init({
+  enabled:true,
   dsn: "https://3c30760472749bd3dd6c98bfe3785b07@o4505840240820224.ingest.us.sentry.io/4506978046705664",
   integrations: [
     Sentry.browserTracingIntegration({
