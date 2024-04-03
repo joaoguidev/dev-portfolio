@@ -180,7 +180,7 @@ const tecnologies = {
 //ANCHOR - Work card content
 export const work = [
    {
-      title: "Portfolio",
+      title: "Portfolio (see repository)",
       imageUrl: "/images/project-portfolio.png",
       repository: { url: "https://github.com/joaoguidev/dev-portfolio", title: "Github" },
       description:
