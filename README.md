@@ -1,10 +1,12 @@
-# Welcome to the secure dev portfolio
+# Welcome to dev portfolio
 This portfolio is designed with security as the top priority, utilizing various technologies and best practices to ensure a safe and reliable experience for users.
 
 ### Technologies Used:
 
 - **Remix**: Provides a solid foundation for building web applications with a focus on performance and developer experience.
 - **Supabase**: PostgreSQL open-source alternative to Firebase. It is scalable, secure and also offers auth solutions.
+- **openAi API**: Embedding generation using OpenAI's "text-embedding-3-small" model. Enabling semantic context with "GPT-3.5-turbo" and pgVector makes it possible to perform similarity searches in a PostgreSQL databases (Supabase) using embeddings.
+- **pgVector**: Open-source vector similarity search tool for PostgreSQL databases.
 - **Sentry**: Ensures robust error tracking and monitoring, allowing for quick identification and resolution of issues.
 - **Zod**: Implements input validation for data integrity and security.
 - **Sanitize-html**: Enforces sanitization to prevent XSS (Cross-Site Scripting) attacks and code injections.
