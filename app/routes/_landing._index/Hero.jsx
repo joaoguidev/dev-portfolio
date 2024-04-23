@@ -1,32 +1,12 @@
-import {
-   IconBrightnessDown,
-   IconBrightnessUp,
-   IconCaretDownFilled,
-   IconCaretLeftFilled,
-   IconCaretRightFilled,
-   IconCaretUpFilled,
-   IconChevronUp,
-   IconCommand,
-   IconMicrophone,
-   IconMoon,
-   IconPlayerSkipForward,
-   IconPlayerTrackNext,
-   IconPlayerTrackPrev,
-   IconSearch,
-   IconTable,
-   IconVolume,
-   IconVolume2,
-   IconVolume3,
-   IconWorld,
-} from "@tabler/icons-react"
+import { useOutletContext } from "@remix-run/react"
+import { IconBrightnessDown, IconBrightnessUp, IconCaretDownFilled, IconCaretLeftFilled, IconCaretRightFilled, IconCaretUpFilled, IconChevronUp, IconCommand, IconMicrophone, IconMoon, IconPlayerSkipForward, IconPlayerTrackNext, IconPlayerTrackPrev, IconSearch, IconTable, IconVolume, IconVolume2, IconVolume3, IconWorld } from "@tabler/icons-react"
 import { motion, stagger, useAnimate, useInView, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
+import { heroH1, typewriterWords } from "../../lib/constants"
 import { cn } from "../../utils/cn"
-import { typewriterWords , heroH1 } from '../../lib/constants'
-import { useOutletContext } from "@remix-run/react"
 
 export default function Hero() {
-   const outletContext = useOutletContext() 
+   const outletContext = useOutletContext()
    return (
       <div className="w-full overflow-hidden ">
          <MacbookScroll

@@ -37,8 +37,7 @@ export const introductionSectionHeading = {
 //ANCHOR - Text to be used on the in the card
 export const introductionCard = {
    title: "Joao Dantas",
-   paragraph:
-      "Transitioning from a career as a financial analyst, I embarked on a new chapter in computer studies, leaving behind the bustling finance world for the innovative realm of technology. Hailing from Brazil, I chose Langara as my gateway to this exciting field, where I eagerly absorbed new knowledge and honed my skills. Through dedication and perseverance, I transformed into a proficient developer, equipped to thrive in the ever-evolving landscape of technology.",
+   paragraph: "Transitioning from a career as a financial analyst, I embarked on a new chapter in computer studies, leaving behind the bustling finance world for the innovative realm of technology. Hailing from Brazil, I chose Langara as my gateway to this exciting field, where I eagerly absorbed new knowledge and honed my skills. Through dedication and perseverance, I transformed into a proficient developer, equipped to thrive in the ever-evolving landscape of technology.",
 }
 
 //ANCHOR - My profile links
@@ -158,7 +157,7 @@ const tecnologies = {
    },
    semrush: {
       name: "SEMrush",
-      color: "text-purple-700",
+      color: "text-purple-500",
    },
    aceternity: {
       name: "aceternity-ui",
@@ -172,6 +171,10 @@ const tecnologies = {
       name: "openAi Api",
       color: "text-teal-300",
    },
+   stripe: {
+      name: "Stripe",
+      color: "text-sky-500",
+   },
    pgVector: {
       name: "pgVector",
       color: "text-indigo-300",
@@ -183,31 +186,24 @@ export const work = [
       title: "Portfolio (see repository)",
       imageUrl: "/images/project-portfolio.png",
       repository: { url: "https://github.com/joaoguidev/dev-portfolio", title: "Github" },
-      description:
-         "This portfolio showcases a visually stunning web application that seamlessly integrates backend functionalities with frontend experiences, offering dynamic animations and immersive 3D elements. With robust data management and secure validation, it ensures both performance and user safety. Additionally, Cloudflare Pages ensures reliable hosting for a seamless user experience.",
-      tecnologies: [tecnologies.remix, tecnologies.supabase, tecnologies.postgreSQL, tecnologies.tailwind, tecnologies.cloudflarePages, tecnologies.zod, tecnologies.sanitizeHtml, tecnologies.framerMotion, tecnologies.reactFiber, tecnologies.reactDrei, tecnologies.threeJs, tecnologies.aceternity, tecnologies.brevoApi, tecnologies.sentry, tecnologies.openAi, tecnologies.pgVector],
+      description: "This portfolio showcases a visually stunning web application that seamlessly integrates backend functionalities with frontend experiences, offering dynamic animations and immersive 3D elements. With robust data management and secure validation, it ensures both performance and user safety. Additionally, Cloudflare Pages ensures reliable hosting for a seamless user experience.",
+      tecnologies: [ tecnologies.remix, tecnologies.supabase, tecnologies.postgreSQL, tecnologies.tailwind, tecnologies.cloudflarePages, tecnologies.zod, tecnologies.sanitizeHtml, tecnologies.framerMotion, tecnologies.reactFiber, tecnologies.reactDrei, tecnologies.threeJs, tecnologies.aceternity, tecnologies.brevoApi, tecnologies.sentry, tecnologies.openAi, tecnologies.pgVector],
+   },
+   {
+      title: "Bem Indica",
+      imageUrl: "/images/project-bemindica.jpg",
+      repository: { url: "", title: "" },
+      live: { url: "https://bemindica.app", title: "Live Site" },
+      description: "I developed a benefit plan platform that provides people with access to healthcare. It features role-based access control for user management. The platform incorporates robust error tracking and monitoring, allowing for quick identification and resolution of issues. It also implements input validation for data integrity and security. The platform enforces sanitization to prevent XSS attacks and code injections and includes protection against unauthorized scripts or stylesheets. It adheres to industry best practices for setting security headers and achieves high security grades on observatory tests. Additional layers of security are provided through the use of web application firewalls.",
+      tecnologies: [tecnologies.stripe, tecnologies.remix, tecnologies.supabase, tecnologies.postgreSQL, tecnologies.tailwind, tecnologies.cloudflarePages, tecnologies.zohoCrm, tecnologies.zohoApi, tecnologies.brevoApi, tecnologies.googleAnalitics, tecnologies.googleSearchConsole, tecnologies.googleWorkspace, tecnologies.semrush],
    },
    {
       title: "Maple Road Consulting",
       imageUrl: "/images/project-maple-road.png",
       repository: { url: "", title: "" },
       live: { url: "https://maple-road.ca/pages/pricing", title: "Live Site" },
-      description:
-         "I developed an e-commerce solution integrating various APIs and platforms to enhance functionality and user experience. I built a Shopify online store with customized features, including automated CRM integration and SEO optimization. Shopify webhooks facilitated seamless communication between platforms, while Brevo API integration enhanced payment processing efficiency. Additionally, Google Workspace integration streamlined internal operations.",
-      tecnologies: [
-         tecnologies.liquid,
-         tecnologies.js,
-         tecnologies.shopifyCli,
-         tecnologies.onlineStore2,
-         tecnologies.shopifyWebhooks,
-         tecnologies.zohoCrm,
-         tecnologies.zohoApi,
-         tecnologies.brevoApi,
-         tecnologies.googleAnalitics,
-         tecnologies.googleSearchConsole,
-         tecnologies.googleWorkspace,
-         tecnologies.semrush,
-      ],
+      description: "I developed an e-commerce solution integrating various APIs and platforms to enhance functionality and user experience. I built a Shopify online store with customized features, including automated CRM integration and SEO optimization. Shopify webhooks facilitated seamless communication between platforms, while Brevo API integration enhanced payment processing efficiency. Additionally, Google Workspace integration streamlined internal operations.",
+      tecnologies: [tecnologies.liquid, tecnologies.js, tecnologies.shopifyCli, tecnologies.onlineStore2, tecnologies.shopifyWebhooks, tecnologies.zohoCrm, tecnologies.zohoApi, tecnologies.brevoApi, tecnologies.googleAnalitics, tecnologies.googleSearchConsole, tecnologies.googleWorkspace, tecnologies.semrush],
    },
    {
       title: "Mobile Augmented Reality (AR)",
